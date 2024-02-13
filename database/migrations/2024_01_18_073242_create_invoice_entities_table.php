@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('invoice_entities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('invoice_prefix');
             $table->string('gst_no')->nullable();
             $table->string('address');
             $table->string('area')->nullable();

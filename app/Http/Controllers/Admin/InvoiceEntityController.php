@@ -34,6 +34,7 @@ class InvoiceEntityController extends Controller
     {
         $invoiceEntity = new InvoiceEntity();
         $invoiceEntity->name = $request->name;
+        $invoiceEntity->invoice_prefix = $request->invoice_prefix;
         $invoiceEntity->gst_no = $request->gst_no;
         $invoiceEntity->address = $request->address;
         $invoiceEntity->area = $request->area;
@@ -82,6 +83,7 @@ class InvoiceEntityController extends Controller
     {
         $invoiceEntity = InvoiceEntity::findOrFail($id);
         $invoiceEntity->name = $request->name;
+        $invoiceEntity->invoice_prefix = $request->invoice_prefix;
         $invoiceEntity->gst_no = $request->gst_no;
         $invoiceEntity->address = $request->address;
         $invoiceEntity->area = $request->area;

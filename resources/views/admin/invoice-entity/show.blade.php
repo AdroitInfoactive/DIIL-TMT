@@ -26,6 +26,12 @@
                                     <p>{{ $invoiceEntity->gst_no }}</p>
                                 </div>
                             </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Invoice Prefix *</label>
+                                    <p>{{ $invoiceEntity->invoice_prefix }}</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-4">

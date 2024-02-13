@@ -24,6 +24,7 @@ class InvoiceEntityCreateRequest extends FormRequest
         return [
             'name' => ['required', 'max:255', 'unique:invoice_entities,name'],
             'gst_no' => ['nullable', 'max:30'],
+            'invoice_prefix' => ['required', 'min:2','max:3'],
             'address' => ['required', 'max:255'],
             'area' => ['nullable', 'max:255'],
             'city' => ['required', 'max:255'],

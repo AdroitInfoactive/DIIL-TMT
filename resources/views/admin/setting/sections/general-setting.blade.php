@@ -4,11 +4,23 @@
             <form action="{{ route('general-setting.update') }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label for="">Site Name</label>
-                    <input name="site_name" type="text" class="form-control"
-                        value="{{ config('settings.site_name') }}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Site Name</label>
+                            <input name="site_name" type="text" class="form-control"
+                                value="{{ config('settings.site_name') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Site Prefix</label>
+                            <input name="site_prefix" type="text" class="form-control" placeholder="e.g. qms"
+                                value="{{ config('settings.site_prefix') }}">
+                        </div>
+                    </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">

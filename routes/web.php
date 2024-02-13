@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ChargesController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\CollectionTaxController;
 use App\Http\Controllers\Admin\InvoiceEntityController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
@@ -52,6 +53,30 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('invoice-entity', InvoiceEntityController::class);
     /* Charges Routes */
     Route::resource('charges', ChargesController::class);
+
+      /*order Routes */
+      Route::get('order/get-taxes/{id}', [OrderController::class, 'getTaxes'])->name('order.get-taxes');
+      Route::post('order/add-product', [OrderController::class, 'addProducts'])->name('order.add-product');
+      Route::post('order/update-product/{quoteProdId}', [OrderController::class, 'addProducts'])->name('order.update-product');
+      Route::delete('order/remove-product{id}', [OrderController::class, 'removeProducts'])->name('order.remove-product');
+      Route::get('order/get-products/{id}', [OrderController::class, 'getProducts'])->name('order.get-products');
+      Route::get('order/get-client-details/{id}', [OrderController::class, 'getClientDetails'])->name('order.get-client-details');
+      Route::post('order/add-terms', [OrderController::class, 'addTerms'])->name('order.add-terms');
+      Route::post('order/add-charges', [OrderController::class, 'addCharges'])->name('order.add-charges');
+      Route::get('order/delete/{id}', [OrderController::class, 'deleteOrder'])->name('order.delete');
+      Route::get('order/print/{id}', [OrderController::class, 'printOrder'])->name('order.print');
+      Route::get('order/revise/{id}', [OrderController::class, 'reviseOrder'])->name('order.revise');
+      Route::post('order/status-update', [OrderController::class, 'statusUpdate'])->name('order.status-update');
+  
+      Route::get('order/accepted', [OrderController::class, 'accepted'])->name('order.accepted');
+      Route::get('order/pending', [OrderController::class, 'pending'])->name('order.pending');
+      Route::get('order/rejected', [OrderController::class, 'rejected'])->name('order.rejected');
+      Route::get('order/deleted', [OrderController::class, 'deleted'])->name('order.deleted');
+
+  
+      Route::resource('order', OrderController::class);
+
+
     /** Setting Routes */
     Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
     Route::put('/general-setting', [SettingController::class, 'UpdateGeneralSetting'])->name('general-setting.update');

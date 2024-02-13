@@ -13,19 +13,26 @@
                 <form action="{{ route('invoice-entity.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label>Invoice Entity * </label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label>GST Number</label>
                                 <input type="text" name="gst_no" value="{{ old('gst_no') }}" class="form-control">
                             </div>
                         </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Invoice Prefix *</label>
+                                <input type="text" name="invoice_prefix" value="{{ old('invoice_prefix') }}" class="form-control" placeholder="e.g. AB">
+                            </div>
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
