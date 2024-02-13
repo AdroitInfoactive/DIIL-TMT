@@ -8,11 +8,11 @@
         <div class="card card-primary">
             <div class="card-header">
                 <h4>All Inoice Entities</h4>
-                <div class="card-header-action">
+                {{-- <div class="card-header-action">
                     <a href="{{ route('invoice-entity.create') }}" class="btn btn-primary">
                         Create new
                     </a>
-                </div>
+                </div> --}}
             </div>
             <div class="card-body">
                 {{ $dataTable->table() }}

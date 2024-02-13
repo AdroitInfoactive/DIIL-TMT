@@ -56,7 +56,7 @@
             </li>
             <li class="menu-header">Menus</li>
             <li
-                class="dropdown {{ setSidebarActive(['size.*', 'brand.*', 'terms-and-conditions.*', 'tax.*', 'invoice-entity.*', 'charges.*']) }}">
+                class="dropdown {{ setSidebarActive(['size.*', 'brand.*', 'terms-and-conditions.*', 'tax.*', 'collection-tax.*', 'invoice-entity.*', 'charges.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Setup </span></a>
                 <ul class="dropdown-menu">
@@ -66,7 +66,7 @@
                             href="{{ route('size.index') }}"><span>UOM</span></a></li>
                     <li class="{{ setSidebarActive(['brand.*']) }}"><a class="nav-link"
                             href="{{ route('brand.index') }}"><span>Make/Brand</span></a></li>
-                    <li class="{{ setSidebarActive(['tax.*']) }}"><a class="nav-link"
+                    <li class="{{ setSidebarActive(['tax.*', 'collection-tax.*']) }}"><a class="nav-link"
                             href="{{ route('tax.index') }}"><span>Taxes</span></a></li>
                     <li class="{{ setSidebarActive(['charges.*']) }}"><a class="nav-link"
                             href="{{ route('charges.index') }}"><span>Charges</span></a></li>
@@ -84,17 +84,17 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Orders </span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setSidebarActive(['order.index', 'order.create', 'order.edit', 'order.show']) }}"><a class="nav-link"
+                    <li class="{{ setSidebarActive(['order.*','order.index', 'order.create', 'order.edit', 'order.show']) }}"><a class="nav-link"
                         href="{{ route('order.index') }}"><span>All</span></a></li>
-                    <li class="{{ setSidebarActive(['order.pending']) }}"><a class="nav-link"
+                    {{-- <li class="{{ setSidebarActive(['order.pending']) }}"><a class="nav-link"
                             href="{{ route('order.pending') }}"><span>Pending</span></a></li>
                     <li class="{{ setSidebarActive(['order.accepted']) }}"><a class="nav-link"
                             href="{{ route('order.accepted') }}"><span>Accepted</span></a></li>
                     <li class="{{ setSidebarActive(['order.rejected']) }}"><a class="nav-link"
-                            href="{{ route('order.rejected') }}"><span>Rejected</span></a></li>
+                            href="{{ route('order.rejected') }}"><span>Rejected</span></a></li> --}}
                     <li class="{{ setSidebarActive(['order.deleted']) }}"><a class="nav-link"
                             href="{{ route('order.deleted') }}"><span>Deleted</span></a></li>
-                    
+
                 </ul>
             </li>
             <li class="{{ setSidebarActive(['setting.index']) }}"><a class="nav-link"

@@ -30,7 +30,7 @@ class InvoiceEntityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(InvoiceEntityCreateRequest $request)
+    /* public function store(InvoiceEntityCreateRequest $request)
     {
         $invoiceEntity = new InvoiceEntity();
         $invoiceEntity->name = $request->name;
@@ -56,7 +56,7 @@ class InvoiceEntityController extends Controller
         $invoiceEntity->save();
         toastr()->success('Invoice Entity Created Successfully');
         return to_route('invoice-entity.index');
-    }
+    } */
 
     /**
      * Display the specified resource.

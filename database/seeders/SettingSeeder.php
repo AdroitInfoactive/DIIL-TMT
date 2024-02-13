@@ -18,7 +18,9 @@ class SettingSeeder extends Seeder
             array('id' => '3', 'key' => 'site_currency_icon', 'value' => '₹', 'created_at' => '2023-08-05 10:31:55', 'updated_at' => '2024-01-18 07:23:40'),
             array('id' => '4', 'key' => 'site_currency_icon_position', 'value' => 'left', 'created_at' => '2023-08-05 10:31:55', 'updated_at' => '2023-08-06 07:30:18'),
             array('id' => '5', 'key' => 'site_delivery_charge', 'value' => '50', 'created_at' => '2023-08-14 03:43:44', 'updated_at' => '2023-08-14 03:43:44'),
-            array('id' => '6', 'key' => 'pusher_app_id', 'value' => '1659217', 'created_at' => '2023-08-26 10:36:34', 'updated_at' => '2023-08-26 10:36:34'),
+
+
+            /* array('id' => '6', 'key' => 'pusher_app_id', 'value' => '1659217', 'created_at' => '2023-08-26 10:36:34', 'updated_at' => '2023-08-26 10:36:34'),
             array('id' => '7', 'key' => 'pusher_key', 'value' => 'be9d8c800e229ec729c6', 'created_at' => '2023-08-26 10:36:34', 'updated_at' => '2023-08-26 10:36:34'),
             array('id' => '8', 'key' => 'pusher_secret', 'value' => '52afd25d2a55c3df77e5', 'created_at' => '2023-08-26 10:36:34', 'updated_at' => '2023-08-26 10:36:34'),
             array('id' => '9', 'key' => 'pusher_cluster', 'value' => 'mt1', 'created_at' => '2023-08-26 10:36:34', 'updated_at' => '2023-08-26 10:36:34'),
@@ -29,7 +31,9 @@ class SettingSeeder extends Seeder
             array('id' => '14', 'key' => 'mail_password', 'value' => 'd02585a4d65f1d', 'created_at' => '2023-09-10 06:35:57', 'updated_at' => '2023-09-10 06:44:34'),
             array('id' => '15', 'key' => 'mail_encryption', 'value' => 'tls', 'created_at' => '2023-09-10 06:35:57', 'updated_at' => '2023-09-10 06:44:34'),
             array('id' => '16', 'key' => 'mail_from_address', 'value' => 'qms@gmail.com', 'created_at' => '2023-09-10 06:35:57', 'updated_at' => '2024-01-18 07:23:04'),
-            array('id' => '17', 'key' => 'mail_receive_address', 'value' => 'qms@gmail.com', 'created_at' => '2023-09-10 06:35:57', 'updated_at' => '2024-01-18 07:23:04'),
+            array('id' => '17', 'key' => 'mail_receive_address', 'value' => 'qms@gmail.com', 'created_at' => '2023-09-10 06:35:57', 'updated_at' => '2024-01-18 07:23:04'), */
+
+
             array('id' => '18', 'key' => 'logo', 'value' => '/uploads/logos/media_65a8d20777d9b.svg', 'created_at' => '2023-09-17 09:27:14', 'updated_at' => '2024-01-18 07:23:51'),
             array('id' => '19', 'key' => 'footer_logo', 'value' => '/uploads/logos/media_65a8d2077ab2e.svg', 'created_at' => '2023-09-17 09:27:14', 'updated_at' => '2024-01-18 07:23:51'),
             array('id' => '20', 'key' => 'favicon', 'value' => '/uploads/logos/media_65a8d2077c317.svg', 'created_at' => '2023-09-17 09:27:14', 'updated_at' => '2024-01-18 07:23:51'),

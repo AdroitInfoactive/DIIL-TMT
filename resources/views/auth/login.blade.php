@@ -51,9 +51,9 @@
                                         <div class="d-block">
                                             <label for="password" class="control-label">Password</label>
                                             <div class="float-right">
-                                                <a href="{{ route('password.request') }}" class="text-small">
+                                                {{-- <a href="{{ route('password.request') }}" class="text-small">
                                                     Forgot Password?
-                                                </a>
+                                                </a> --}}
                                             </div>
                                         </div>
                                         <input id="password" type="password" class="form-control" name="password"

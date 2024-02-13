@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-12">
                             <div class="form-check">
@@ -107,7 +107,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-        
+
             // ---------------------- load old values ----------------------------
             var inv_entity_id = $('#invoice_entity').val();
             var org_id = $('#organization').val();
@@ -146,7 +146,7 @@
                     }
                 });
             });
-            // -----------------------end terms and conditions ----------------------------  
+            // -----------------------end terms and conditions ----------------------------
 
             // ----------------------- charges-------------------------------------------
             $(document).on('click', '#charges', function(e) {
@@ -385,7 +385,7 @@
                                 $('#make').val(data.productData.make).trigger(
                                     'change');
                                 $('#price').val(data.productData.price);
-                             
+
                                 $('.button_to_submit').html(
                                     '<button type="button" class="btn btn-primary add_product">Edit</button>'
                                 )

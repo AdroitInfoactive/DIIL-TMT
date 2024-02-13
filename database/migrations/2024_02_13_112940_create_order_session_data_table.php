@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('order_session_data', function (Blueprint $table) {
             $table->id();
+            $table->integer('order_session_master_id')->constrained('order_masters')->onDelete('cascade');
+            $table->text('order_session')->nullable();
+            $table->text('order_terms_session')->nullable();
+            $table->text('order_charges_session')->nullable();
+            $table->text('order_totalcalculations_session')->nullable();
+            $table->text('order_make1totalTaxes_session')->nullable();
             $table->timestamps();
         });
     }

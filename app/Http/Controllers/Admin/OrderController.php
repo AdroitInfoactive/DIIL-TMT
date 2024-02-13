@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\DataTables\OrderMasterAcceptedDataTable;
 use App\DataTables\OrderMasterDataTable;
 use App\DataTables\OrderMasterDeletedDataTable;
@@ -63,7 +64,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        clearSession();
+        // clearSession();
         // unset session
         // Session::forget('chargesSession_' . auth()->user()->id);
         $invoiceEntities = InvoiceEntity::where('status', 1)->get();
@@ -101,52 +102,50 @@ class OrderController extends Controller
         // storeing into master table
         $qmaster = new OrderMaster();
         $qmaster->invoice_entity_id = $request->invoice_entity;
-        $qmaster->quotation_main_prefix = config('settings.site_prefix');
-        $qmaster->quotation_entity_prefix = InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix');
-        $qmaster->quotation_financial_year = getFinancialYear();
+        $qmaster->order_main_prefix = config('settings.site_prefix');
+        $qmaster->order_entity_prefix = InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix');
+        $qmaster->order_financial_year = getFinancialYear();
         $qmaster->user_id = Auth::user()->id;
         $qmaster->client_id = $request->organization;
         if (isset($request->revise) && $request->revise == 'r') {
-            $rcount = OrderMaster::where(['quotation_financial_year' => getFinancialYear(), 'quotation_entity_prefix' => InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix'), 'quotation_no' => $request->quotno])->where('quotation_type', '!=', 'N')->count();
-            $type = 'R' . ($rcount+1);
-            $qmaster->quotation_type = $type;
-            $qmaster->quotation_no = $request->quotno;
-        }
-        else
-        {
-            $qmaster->quotation_type = "N";
-            $qmaster->quotation_no = OrderMaster::where(['quotation_financial_year' => getFinancialYear(), 'quotation_entity_prefix' => InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix')])->count() + 1;
-        }
-        $qmaster->quotation_note = $request->note;
-        $qmaster->quotation_total_quantity = Session::get('totalProductSession_' . auth()->user()->id)['total_make1_Quantity'];
-        $qmaster->quotation_total_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
-        if (isset($request->make1ttl)) {
-            $qmaster->quotation_total_amount_withcharges = $request->make1ttl;
+            $rcount = OrderMaster::where(['order_financial_year' => getFinancialYear(), 'order_entity_prefix' => InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix'), 'order_no' => $request->quotno])->where('order_type', '!=', 'N')->count();
+            $type = 'R' . ($rcount + 1);
+            $qmaster->order_type = $type;
+            $qmaster->order_no = $request->quotno;
         } else {
-            $qmaster->quotation_total_amount_withcharges = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
+            $qmaster->order_type = "N";
+            $qmaster->order_no = OrderMaster::where(['order_financial_year' => getFinancialYear(), 'order_entity_prefix' => InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix')])->count() + 1;
         }
-      
+        $qmaster->order_note = $request->note;
+        $qmaster->order_total_quantity = Session::get('totalProductSession_' . auth()->user()->id)['total_make1_Quantity'];
+        $qmaster->order_total_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
+        if (isset($request->make1ttl)) {
+            $qmaster->order_total_amount_withcharges = $request->make1ttl;
+        } else {
+            $qmaster->order_total_amount_withcharges = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
+        }
+
         $qmaster->tax_type = config('settings.site_inclusive_tax');
         $qmaster->po_raised_status = 'no';
         $qmaster->invoice_raised_status = 'no';
-        $qmaster->quotation_status = 'p';
+        $qmaster->order_status = 'p';
 
         $qmaster->save();
         // get qmaster insertion id
         $masterId = $qmaster->id;
         // insert session data
         $qsession = new OrderSessionData();
-        $qsession->quotation_session_master_id = $masterId;
-        $qsession->quotation_session = serialize(Session::get('productSession_' . auth()->user()->id));
-        $qsession->quotation_terms_session = serialize(Session::get('termsSession_' . auth()->user()->id));
-        $qsession->quotation_charges_session = serialize(Session::get('chargesSession_' . auth()->user()->id));
-        $qsession->quotation_totalcalculations_session = serialize(Session::get('totalProductSession_' . auth()->user()->id));
-        $qsession->quotation_make1totalTaxes_session = serialize(Session::get('make1totalTaxes_' . auth()->user()->id));
+        $qsession->order_session_master_id = $masterId;
+        $qsession->order_session = serialize(Session::get('productSession_' . auth()->user()->id));
+        $qsession->order_terms_session = serialize(Session::get('termsSession_' . auth()->user()->id));
+        $qsession->order_charges_session = serialize(Session::get('chargesSession_' . auth()->user()->id));
+        $qsession->order_totalcalculations_session = serialize(Session::get('totalProductSession_' . auth()->user()->id));
+        $qsession->order_make1totalTaxes_session = serialize(Session::get('make1totalTaxes_' . auth()->user()->id));
         $qsession->save();
         $quotationProducts = Session::get('productSession_' . auth()->user()->id);
         foreach ($quotationProducts as $product) {
             $qdetail = new OrderDetail();
-            $qdetail->quotation_detail_master_id = $masterId; // quotation_detail_master_id
+            $qdetail->order_detail_master_id = $masterId; // order_detail_master_id
             $qdetail->product_id = $product['productData']['product'];
             $qdetail->description = $product['productData']['description'];
             $qdetail->uom_id = $product['productData']['uom'];
@@ -160,12 +159,12 @@ class OrderController extends Controller
             if (isset($product['productData']['taxes'])) {
                 foreach ($product['productData']['taxes'] as $index => $tax) {
                     $quotationTax = new OrderTax();
-                    $quotationTax->quotation_tax_master_id = $masterId;
-                    $quotationTax->quotation_tax_detail_id = $qdetail->id;
-                    $quotationTax->quotation_tax_id = $tax;
-                    $quotationTax->quotation_tax_name = $product['productMake1Taxes'][$index]['name'];
-                    $quotationTax->quotation_tax_value = $product['productMake1Taxes'][$index]['value'];
-                    $quotationTax->quotation_tax_amount = $product['productMake1Taxes'][$index]['tax_amount'];
+                    $quotationTax->order_tax_master_id = $masterId;
+                    $quotationTax->order_tax_detail_id = $qdetail->id;
+                    $quotationTax->order_tax_id = $tax;
+                    $quotationTax->order_tax_name = $product['productMake1Taxes'][$index]['name'];
+                    $quotationTax->order_tax_value = $product['productMake1Taxes'][$index]['value'];
+                    $quotationTax->order_tax_amount = $product['productMake1Taxes'][$index]['tax_amount'];
                     $quotationTax->status = 1;
                     $quotationTax->save();
                 }
@@ -175,10 +174,10 @@ class OrderController extends Controller
         if (isset($quotationTerms)) {
             foreach ($quotationTerms as $term) {
                 $quotationTerm = new OrderTerm();
-                $quotationTerm->quotation_terms_master_id = $masterId;
-                $quotationTerm->quotation_term_id = $term['id'];
-                $quotationTerm->quotation_term_name = $term['name'];
-                $quotationTerm->quotation_term_description = $term['description'];
+                $quotationTerm->order_terms_master_id = $masterId;
+                $quotationTerm->order_term_id = $term['id'];
+                $quotationTerm->order_term_name = $term['name'];
+                $quotationTerm->order_term_description = $term['description'];
                 $quotationTerm->status = 1;
                 $quotationTerm->save();
             }
@@ -187,10 +186,10 @@ class OrderController extends Controller
         if (isset($quotationCharges)) {
             foreach ($quotationCharges as $charge) {
                 $quotationCharge = new OrderCharge();
-                $quotationCharge->quotation_charge_master_id = $masterId;
-                $quotationCharge->quotation_charge_id = $charge['id'];
-                $quotationCharge->quotation_charge_value = $charge['value'];
-                $quotationCharge->quotation_charge_amount = $charge['make1Calculations'];
+                $quotationCharge->order_charge_master_id = $masterId;
+                $quotationCharge->order_charge_id = $charge['id'];
+                $quotationCharge->order_charge_value = $charge['value'];
+                $quotationCharge->order_charge_amount = $charge['make1Calculations'];
                 $quotationCharge->status = 1;
                 $quotationCharge->save();
             }
@@ -212,10 +211,10 @@ class OrderController extends Controller
     public function show(string $id)
     {
         $qmaster = OrderMaster::findOrFail($id);
-        $qdetails = OrderDetail::where('quotation_detail_master_id', $id)->get();
-        $qterms = OrderTerm::where('quotation_terms_master_id', $id)->get();
-        $qcharges = OrderCharge::where('quotation_charge_master_id', $id)->get();
-        $qtaxes = OrderTax::where('quotation_tax_master_id', $id)->get();
+        $qdetails = OrderDetail::where('order_detail_master_id', $id)->get();
+        $qterms = OrderTerm::where('order_terms_master_id', $id)->get();
+        $qcharges = OrderCharge::where('order_charge_master_id', $id)->get();
+        $qtaxes = OrderTax::where('order_tax_master_id', $id)->get();
         return view('admin.order.view', compact('qmaster', 'qdetails', 'qterms', 'qcharges', 'qtaxes'));
     }
 
@@ -225,11 +224,11 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $qmaster = OrderMaster::findOrFail($id);
-        $qdetails = OrderDetail::where('quotation_detail_master_id', $id)->get();
-        $qterms = OrderTerm::where('quotation_terms_master_id', $id)->get();
-        $qcharges = OrderCharge::where('quotation_charge_master_id', $id)->get();
-        $qtaxes = OrderTax::where('quotation_tax_master_id', $id)->get();
-        $qsession = OrderSessionData::where('quotation_session_master_id', $id)->first();
+        $qdetails = OrderDetail::where('order_detail_master_id', $id)->get();
+        $qterms = OrderTerm::where('order_terms_master_id', $id)->get();
+        $qcharges = OrderCharge::where('order_charge_master_id', $id)->get();
+        $qtaxes = OrderTax::where('order_tax_master_id', $id)->get();
+        $qsession = OrderSessionData::where('order_session_master_id', $id)->first();
         $invoiceEntities = InvoiceEntity::where('status', 1)->get();
         $clients = Client::where('status', 1)->get();
         $products = Product::where(['status' => 1])->get();
@@ -237,11 +236,11 @@ class OrderController extends Controller
         $brands = Vendor::where(['status' => 1])->get();
         $terms = TermsAndCondition::where('status', 1)->get();
         $charges = Charge::where('status', 1)->get();
-        $sessionData1 = unserialize($qsession->quotation_session);
-        $sessionData2 = unserialize($qsession->quotation_terms_session);
-        $sessionData3 = unserialize($qsession->quotation_charges_session);
-        $sessionData4 = unserialize($qsession->quotation_totalcalculations_session);
-        $sessionData5 = unserialize($qsession->quotation_make1totalTaxes_session);
+        $sessionData1 = unserialize($qsession->order_session);
+        $sessionData2 = unserialize($qsession->order_terms_session);
+        $sessionData3 = unserialize($qsession->order_charges_session);
+        $sessionData4 = unserialize($qsession->order_totalcalculations_session);
+        $sessionData5 = unserialize($qsession->order_make1totalTaxes_session);
 
         Session::put('productSession_' . $qmaster->user_id, !empty($sessionData1) ? $sessionData1 : []);
         Session::put('termsSession_' . $qmaster->user_id, !empty($sessionData2) ? $sessionData2 : []);
@@ -255,7 +254,28 @@ class OrderController extends Controller
         $quotationCharges = Session::get('chargesSession_' . $qmaster->user_id);
         $totalcalculations = Session::get('totalProductSession_' . $qmaster->user_id);
         $make1totalTaxes = Session::get('make1totalTaxes_' . $qmaster->user_id);
-        return view('admin.order.edit', compact('quotationProducts', 'quotationTerms', 'quotationCharges', 'totalcalculations', 'make1totalTaxes', 'qmaster', 'qdetails', 'qterms', 'qcharges', 'qtaxes', 'invoiceEntities', 'clients', 'products', 'sizes', 'brands', 'terms', 'charges'));
+        return view(
+            'admin.order.edit',
+            compact(
+                'quotationProducts',
+                'quotationTerms',
+                'quotationCharges',
+                'totalcalculations',
+                'make1totalTaxes',
+                'qmaster',
+                'qdetails',
+                'qterms',
+                'qcharges',
+                'qtaxes',
+                'invoiceEntities',
+                'clients',
+                'products',
+                'sizes',
+                'brands',
+                'terms',
+                'charges'
+            )
+        );
     }
 
     public function reviseOrder(string $id)
@@ -310,47 +330,39 @@ class OrderController extends Controller
         ]);
         $qmaster = OrderMaster::findOrFail($id);
         $qmaster->invoice_entity_id = $request->invoice_entity;
-        $qmaster->quotation_main_prefix = config('settings.site_prefix');
-        $qmaster->quotation_entity_prefix = InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix');
-        $qmaster->quotation_financial_year = getFinancialYear();
+        $qmaster->order_main_prefix = config('settings.site_prefix');
+        $qmaster->order_entity_prefix = InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix');
+        $qmaster->order_financial_year = getFinancialYear();
         $qmaster->user_id = Auth::user()->id;
         $qmaster->client_id = $request->organization;
-        $qmaster->quotation_note = $request->note;
-        $qmaster->quotation_total_quantity = Session::get('totalProductSession_' . auth()->user()->id)['total_make1_Quantity'];
-        $qmaster->quotation_total_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
+        $qmaster->order_note = $request->note;
+        $qmaster->order_total_quantity = Session::get('totalProductSession_' . auth()->user()->id)['total_make1_Quantity'];
+        $qmaster->order_total_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
         if (isset($request->make1ttl)) {
-            $qmaster->quotation_total_amount_withcharges = $request->make1ttl;
+            $qmaster->order_total_amount_withcharges = $request->make1ttl;
         } else {
-            $qmaster->quotation_total_amount_withcharges = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
-        }
-        $qmaster->quotation_total_quantity2 = Session::get('totalProductSession_' . auth()->user()->id)['total_make2_Quantity'];
-        $qmaster->quotation_total_amount2 = Session::get('totalProductSession_' . auth()->user()->id)['make2priceWithTax'];
-        if (isset($request->make2ttl)) {
-
-            $qmaster->quotation_total_amount_withcharges2 = $request->make2ttl;
-        } else {
-            $qmaster->quotation_total_amount_withcharges2 = Session::get('totalProductSession_' . auth()->user()->id)['make2priceWithTax'];
+            $qmaster->order_total_amount_withcharges = Session::get('totalProductSession_' .
+                auth()->user()->id)['make1priceWithTax'];
         }
         $qmaster->tax_type = config('settings.site_inclusive_tax');
         $qmaster->po_raised_status = 'no';
         $qmaster->invoice_raised_status = 'no';
-        $qmaster->quotation_delete_status = 'n';
-        $qmaster->quotation_status = 'p';
+        $qmaster->order_delete_status = 'n';
+        $qmaster->order_status = 'p';
         $qmaster->save();
-        $qsession = OrderSessionData::where('quotation_session_master_id', $id)->first();
-        $qsession->quotation_session = serialize(Session::get('productSession_' . auth()->user()->id));
-        $qsession->quotation_terms_session = serialize(Session::get('termsSession_' . auth()->user()->id));
-        $qsession->quotation_charges_session = serialize(Session::get('chargesSession_' . auth()->user()->id));
-        $qsession->quotation_totalcalculations_session = serialize(Session::get('totalProductSession_' . auth()->user()->id));
-        $qsession->quotation_make1totalTaxes_session = serialize(Session::get('make1totalTaxes_' . auth()->user()->id));
-        $qsession->quotation_make2totalTaxes_session = serialize(Session::get('make2totalTaxes_' . auth()->user()->id));
+        $qsession = OrderSessionData::where('order_session_master_id', $id)->first();
+        $qsession->order_session = serialize(Session::get('productSession_' . auth()->user()->id));
+        $qsession->order_terms_session = serialize(Session::get('termsSession_' . auth()->user()->id));
+        $qsession->order_charges_session = serialize(Session::get('chargesSession_' . auth()->user()->id));
+        $qsession->order_totalcalculations_session = serialize(Session::get('totalProductSession_' . auth()->user()->id));
+        $qsession->order_make1totalTaxes_session = serialize(Session::get('make1totalTaxes_' . auth()->user()->id));
         $qsession->save();
-        OrderDetail::where('quotation_detail_master_id', $id)->delete();
-        OrderTax::where('quotation_tax_master_id', $id)->delete();
+        OrderDetail::where('order_detail_master_id', $id)->delete();
+        OrderTax::where('order_tax_master_id', $id)->delete();
         $quotationProducts = Session::get('productSession_' . auth()->user()->id);
         foreach ($quotationProducts as $product) {
             $qdetail = new OrderDetail();
-            $qdetail->quotation_detail_master_id = $id; // quotation_detail_master_id
+            $qdetail->order_detail_master_id = $id; // order_detail_master_id
             $qdetail->product_id = $product['productData']['product'];
             $qdetail->description = $product['productData']['description'];
             $qdetail->uom_id = $product['productData']['uom'];
@@ -359,79 +371,61 @@ class OrderController extends Controller
             $qdetail->price = $product['productData']['price'];
             $qdetail->priceXqty = $product['productMake1Total'];
             $qdetail->total_price = $product['productMake1TotalAmount'];
-            if (isset($product['productData']['disp_make2'])) {
-                $qdetail->multi_make = $product['productData']['disp_make2'];
-            } else {
-                $qdetail->multi_make = 0;
-            }
-            if ($qdetail->multi_make != 0) {
-                $qdetail->quantity2 = $product['productData']['quantity2'];
-                $qdetail->make_id2 = $product['productData']['make2'];
-                $qdetail->price2 = $product['productData']['price2'];
-                $qdetail->priceXqty2 = $product['productMake2Total'];
-                $qdetail->total_price2 = $product['productMake2TotalAmount'];
-            }
             $qdetail->status = 1;
             $qdetail->save();
             if (isset($product['productData']['taxes'])) {
                 foreach ($product['productData']['taxes'] as $index => $tax) {
                     $quotationTax = new OrderTax();
-                    $quotationTax->quotation_tax_master_id = $id;
-                    $quotationTax->quotation_tax_detail_id = $qdetail->id;
-                    $quotationTax->quotation_tax_id = $tax;
-                    $quotationTax->quotation_tax_name = $product['productMake1Taxes'][$index]['name'];
-                    $quotationTax->quotation_tax_value = $product['productMake1Taxes'][$index]['value'];
-                    $quotationTax->quotation_tax_amount = $product['productMake1Taxes'][$index]['tax_amount'];
-                    if ($qdetail->multi_make != 0) {
-                        $quotationTax->quotation_tax_make2_amount = $product['productMake2Taxes'][$index]['tax_amount'];
-                    }
+                    $quotationTax->order_tax_master_id = $id;
+                    $quotationTax->order_tax_detail_id = $qdetail->id;
+                    $quotationTax->order_tax_id = $tax;
+                    $quotationTax->order_tax_name = $product['productMake1Taxes'][$index]['name'];
+                    $quotationTax->order_tax_value = $product['productMake1Taxes'][$index]['value'];
+                    $quotationTax->order_tax_amount = $product['productMake1Taxes'][$index]['tax_amount'];
                     $quotationTax->status = 1;
                     $quotationTax->save();
                 }
             }
         }
-        OrderTerm::where('quotation_terms_master_id', $id)->delete();
+        OrderTerm::where('order_terms_master_id', $id)->delete();
         $quotationTerms = Session::get('termsSession_' . auth()->user()->id);
         if (isset($quotationTerms)) {
             foreach ($quotationTerms as $term) {
                 $quotationTerm = new OrderTerm();
-                $quotationTerm->quotation_terms_master_id = $id;
-                $quotationTerm->quotation_term_id = $term['id'];
-                $quotationTerm->quotation_term_name = $term['name'];
-                $quotationTerm->quotation_term_description = $term['description'];
+                $quotationTerm->order_terms_master_id = $id;
+                $quotationTerm->order_term_id = $term['id'];
+                $quotationTerm->order_term_name = $term['name'];
+                $quotationTerm->order_term_description = $term['description'];
                 $quotationTerm->status = 1;
                 $quotationTerm->save();
             }
         }
-        OrderCharge::where('quotation_charge_master_id', $id)->delete();
+        OrderCharge::where('order_charge_master_id', $id)->delete();
         $quotationCharges = Session::get('chargesSession_' . auth()->user()->id);
         if (isset($quotationCharges)) {
             foreach ($quotationCharges as $charge) {
                 $quotationCharge = new OrderCharge();
-                $quotationCharge->quotation_charge_master_id = $id;
-                $quotationCharge->quotation_charge_id = $charge['id'];
-                $quotationCharge->quotation_charge_value = $charge['value'];
-                $quotationCharge->quotation_charge_amount = $charge['make1Calculations'];
-                if ($qdetail->multi_make != 0) {
-                    $quotationCharge->quotation_charge_make2_amount = $charge['make2Calculations'];
-                }
+                $quotationCharge->order_charge_master_id = $id;
+                $quotationCharge->order_charge_id = $charge['id'];
+                $quotationCharge->order_charge_value = $charge['value'];
+                $quotationCharge->order_charge_amount = $charge['make1Calculations'];
                 $quotationCharge->status = 1;
                 $quotationCharge->save();
             }
         }
         // send email
-        // unset all sesison after creating order
+// unset all sesison after creating order
         Session::forget('termsSession_' . auth()->user()->id);
         Session::forget('chargesSession_' . auth()->user()->id);
         Session::forget('totalProductSession_' . auth()->user()->id);
         Session::forget('productSession_' . auth()->user()->id);
         Session::forget('make1totalTaxes_' . auth()->user()->id);
-    
 
         toastr()->success('Order Updated successfully.');
         return to_route('order.show', $id);
     }
-    public function statusUpdate(Request $request){
+    public function statusUpdate(Request $request)
+    {
         $quotationMaster = OrderMaster::findOrFail($request->id);
         $quotationMaster->quotation_status = $request->status;
         $quotationMaster->save();
@@ -491,7 +485,7 @@ class OrderController extends Controller
                     $updtcharge = isset($updtcharge) ? $updtcharge : '';
 
                     // Render the view
-                    $view = View::make('admin.order.product-table', ['quotationProducts' => $quotationSession, 'totalcalculations' => $totalcalculations,'quotationCharges' => $quotationCharges])->render();
+                    $view = View::make('admin.order.product-table', ['quotationProducts' => $quotationSession, 'totalcalculations' => $totalcalculations, 'quotationCharges' => $quotationCharges])->render();
                     // $view .= "<--||-->" . $updtcharge;
                     $quotationSession_after_remove = session('productSession_' . auth()->user()->id, []);
                     // dd($quotationSession_after_remove);
@@ -537,7 +531,7 @@ class OrderController extends Controller
         $totalmake1Tax = $make1Calculations['totalTax'];
         $totalMake1AmountWithTax = $make1Calculations['totalAmountWithTax'];
         $make1tax_calculation = $make1Calculations['taxCalculation'];
-      
+
         // Store the updated array back in the session
         // ------------------------------ updating product ------------------------------------------------------
         if ($request->sessionId) {
@@ -551,7 +545,7 @@ class OrderController extends Controller
                     $quotationSession[$key]['productMake1Taxes'] = $make1tax_calculation;
                     $quotationSession[$key]['productMake1TotalTax'] = $totalmake1Tax;
                     $quotationSession[$key]['productMake1TotalAmount'] = $totalMake1AmountWithTax;
-                  
+
                     // Save the updated session data
                     break; // Break the loop once the item is found and updated
                 }
@@ -568,7 +562,7 @@ class OrderController extends Controller
                 'productMake1TotalTax' => $totalmake1Tax,
                 'productMake1TotalAmount' => $totalMake1AmountWithTax,
             ];
-         
+
             $quotationSession[] = $newDataArray;
         }
         session(['productSession_' . auth()->user()->id => $quotationSession]);

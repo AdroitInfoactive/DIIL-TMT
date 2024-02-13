@@ -22,7 +22,41 @@ class OrderMasterDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'ordermaster.action')
+            ->addColumn('action', function ($query) {
+                $view = "<a href='" . route('order.show', $query->id) . "' class='btn btn-primary'title='View' ><i class='fas fa-eye'></i></a>";
+                /* $revise = "<a href='" . route('order.revise', $query->id) . "' class='btn btn-info mb-2' title='Revise'><i class='fas fa-history'></i></a>"; */
+                $edit = "<a href='" . route('order.edit', $query->id) . "' class='btn btn-warning ml-2 mr-2' title='Edit'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='" . route('order.delete', $query->id) . "' class='btn btn-danger delete-order' title='Delete'><i class='fas fa-trash'></i></a>";
+
+                return $view . $edit . $delete;
+            })
+            ->addColumn('order_no', function ($query) {
+                // call function to generate quote number
+                return '<b>' . generateQuoteNumber($query->order_main_prefix, $query->order_entity_prefix, $query->order_financial_year, $query->order_no, $query->order_type) . '</b>';
+            })
+            ->addColumn('date', function ($query) {
+                return date('d-m-Y', strtotime($query->created_at));
+            })
+            ->addColumn('client_name', function ($query) {
+                return $query->client?->name;
+            })
+            ->addColumn('prepared_by', function ($query) {
+                return $query->user?->name;
+            })
+            /* ->addColumn('status', function ($query) {
+                if ($query->order_delete_status == 'y') {
+                    $html = '<span class="badge badge-danger">Deleted</span>';
+                } else {
+                    $html = '<select class="form-control order_status" data-id="' . $query->id . '">
+                    <option ' . ($query->order_status === 'p' ? 'selected' : '') . ' value="p">Pending</option>
+                    <option ' . ($query->order_status === 'a' ? 'selected' : '') . ' value="a">Accepted</option>
+                    <option ' . ($query->order_status === 'r' ? 'selected' : '') . ' value="r">Rejected</option>
+                    </select>';
+                }
+
+                return $html;
+            }) */
+            ->rawColumns(['action', 'order_no', 'date', 'client_name', 'prepared_by', 'status'])
             ->setRowId('id');
     }
 
@@ -31,7 +65,7 @@ class OrderMasterDataTable extends DataTable
      */
     public function query(OrderMaster $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('order_delete_status', 'n');
     }
 
     /**
@@ -40,20 +74,20 @@ class OrderMasterDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('ordermaster-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('ordermaster-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(0)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +96,17 @@ class OrderMasterDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('order_no'),
+            Column::make('date'),
+            Column::make('client_name'),
+            Column::make('prepared_by'),
+            // Column::make('status'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(150)
+                ->addClass('text-center'),
         ];
     }
 

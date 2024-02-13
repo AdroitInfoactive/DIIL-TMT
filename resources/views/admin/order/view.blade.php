@@ -17,7 +17,7 @@
                             <div class="invoice-title">
                                 <h2>Order</h2>
                                 <div class="invoice-number mt-2">ORDER NO :
-                                    {{ generateQuoteNumber($qmaster->quotation_main_prefix, $qmaster->quotation_entity_prefix, $qmaster->quotation_financial_year, $qmaster->quotation_no, $qmaster->quotation_type) }}
+                                    {{ generateQuoteNumber($qmaster->order_main_prefix, $qmaster->order_entity_prefix, $qmaster->order_financial_year, $qmaster->order_no, $qmaster->order_type) }}
                                 </div>
                             </div>
                             <hr>
@@ -32,11 +32,11 @@
                                     <address>
                                         Order Status:
                                         <strong>
-                                            @if ($qmaster->quotation_status == 'p')
+                                            @if ($qmaster->order_status == 'p')
                                                 Pending
-                                            @elseif($qmaster->quotation_status == 'a')
+                                            @elseif($qmaster->order_status == 'a')
                                                 Accepted
-                                            @elseif($qmaster->quotation_status == 'r')
+                                            @elseif($qmaster->order_status == 'r')
                                                 Rejected
                                             @else
                                                 NA
@@ -143,12 +143,12 @@
                                             <td class="text-right">
                                                 @if ($qtaxes->isNotEmpty())
                                                     @foreach ($qtaxes as $qtax)
-                                                        @if ($qdetail->id == $qtax->quotation_tax_detail_id)
+                                                        @if ($qdetail->id == $qtax->order_tax_detail_id)
                                                             @php
-                                                                $mk1_tot_tax += $qtax->quotation_tax_amount;
+                                                                $mk1_tot_tax += $qtax->order_tax_amount;
                                                             @endphp
-                                                            {{ $qtax->quotation_tax_name }}({{ $qtax->quotation_tax_value }}%)
-                                                            - {{ currencyPosition($qtax->quotation_tax_amount) }}<br>
+                                                            {{ $qtax->order_tax_name }}({{ $qtax->order_tax_value }}%)
+                                                            - {{ currencyPosition($qtax->order_tax_amount) }}<br>
                                                         @endif
                                                     @endforeach
                                                 @else
@@ -178,15 +178,15 @@
                                                 </td>
                                                 <td class="text-right">
                                                     @foreach ($qtaxes as $qtax)
-                                                        @if ($qdetail->id == $qtax->quotation_tax_detail_id && isset($qtax->quotation_tax_make2_amount))
+                                                        @if ($qdetail->id == $qtax->order_tax_detail_id && isset($qtax->order_tax_make2_amount))
                                                             @php
                                                                 // Accumulate tax amount for make2 for the current product
-                                                                $product_mk2_tot_tax += $qtax->quotation_tax_make2_amount;
+                                                                $product_mk2_tot_tax += $qtax->order_tax_make2_amount;
                                                                 // Accumulate tax amount for make2 globally
-                                                                $mk2_tot_tax += $qtax->quotation_tax_make2_amount;
+                                                                $mk2_tot_tax += $qtax->order_tax_make2_amount;
                                                             @endphp
-                                                            {{ $qtax->quotation_tax_name }}({{ $qtax->quotation_tax_value }}%)
-                                                            - {{ currencyPosition($qtax->quotation_tax_make2_amount) }}<br>
+                                                            {{ $qtax->order_tax_name }}({{ $qtax->order_tax_value }}%)
+                                                            - {{ currencyPosition($qtax->order_tax_make2_amount) }}<br>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -240,22 +240,22 @@
                                             @endphp
                                             @foreach ($qcharges as $qcharge)
                                                 @php
-                                                    $mk1_chrg_tot += $qcharge->quotation_charge_amount;
+                                                    $mk1_chrg_tot += $qcharge->order_charge_amount;
                                                 @endphp
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td colspan="6">{{ $qcharge->charge?->name }} -
                                                         {{ $qcharge->charge?->description }}</td>
-                                                    <td class="text-right">{{ $qcharge->quotation_charge_value }}</td>
+                                                    <td class="text-right">{{ $qcharge->order_charge_value }}</td>
                                                     <td class="text-right">
-                                                        {{ currencyPosition($qcharge->quotation_charge_amount) }}</td>
+                                                        {{ currencyPosition($qcharge->order_charge_amount) }}</td>
                                                     @if ($found_flag == true)
                                                         @php
-                                                            $mk2_chrg_tot += $qcharge->quotation_charge_make2_amount;
+                                                            $mk2_chrg_tot += $qcharge->order_charge_make2_amount;
                                                         @endphp
                                                         <td class="text-right" colspan="7"
                                                             style="border-left: 1px solid #000;">
-                                                            {{ currencyPosition($qcharge->quotation_charge_make2_amount) }}
+                                                            {{ currencyPosition($qcharge->order_charge_make2_amount) }}
                                                         </td>
                                                     @endif
                                                 </tr>
@@ -280,11 +280,11 @@
                                         <tr
                                             style="border-top: 1px solid #000; border-right: 0; border-bottom: 1px solid #000; border-left: 1px solid #000;">
                                             <td colspan="9" align="right">
-                                                <strong>{{ currencyPosition($qmaster->quotation_total_amount_withcharges) }}</strong>
+                                                <strong>{{ currencyPosition($qmaster->order_total_amount_withcharges) }}</strong>
                                             </td>
                                             @if ($found_flag == true)
                                                 <td colspan="7" style="border-left: 1px solid #000" align="right">
-                                                    <strong>{{ currencyPosition($qmaster->quotation_total_amount_withcharges2) }}</strong>
+                                                    <strong>{{ currencyPosition($qmaster->order_total_amount_withcharges2) }}</strong>
                                                 </td>
                                             @endif
                                         </tr>
@@ -302,8 +302,8 @@
                                             @foreach ($qterms as $qterm)
                                                 <tr>
                                                     <td style="width: 10px;">{{ $loop->iteration }}</td>
-                                                    <td colspan="6">{{ $qterm->quotation_term_name }} -
-                                                        {{ $qterm->quotation_term_description }}</td>
+                                                    <td colspan="6">{{ $qterm->order_term_name }} -
+                                                        {{ $qterm->order_term_description }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
@@ -313,7 +313,7 @@
                             <div class="row mt-4">
                                 <div class="col-lg-8">
                                     <div class="section-title" style="margin: 5px 0 5px 0;">Notes</div>
-                                    <div class="invoice-note">{!! $qmaster->quotation_note !!}</div>
+                                    <div class="invoice-note">{!! $qmaster->order_note !!}</div>
                                     <p class="mt-4">Prepared By: <b>{{ $qmaster->user?->name }}</b></p>
                                 </div>
                             </div>
@@ -325,15 +325,15 @@
                     <div class="float-lg-left mb-lg-0 mb-3">
                         <a href="{{ route('order.index') }}" class="btn btn-warning btn-icon icon-left">Back</a>
                     </div>
-                    @if ($qmaster->quotation_delete_status != 'y')
+                    @if ($qmaster->order_delete_status != 'y')
                         <a href="{{ route('order.edit', $qmaster->id) }}"
                             class="btn btn-primary btn-icon icon-left"><i class="fas fa-edit"></i>Edit</a>
-                        <a href="{{ route('order.revise', $qmaster->id) }}"
-                            class="btn btn-info btn-icon icon-left"><i class="fas fa-history"></i>Revise</a>
+                        {{-- <a href="{{ route('order.revise', $qmaster->id) }}"
+                            class="btn btn-info btn-icon icon-left"><i class="fas fa-history"></i>Revise</a> --}}
                     @endif
                     <a href="{{ route('order.print', $qmaster->id) }}" class="btn btn-success btn-icon icon-left"><i
                             class="fas fa-print"></i>Print</a>
-                    <a href="{{ route('order.export', $qmaster->id) }}" class="btn btn-danger btn-icon icon-left">PDF</a>
+                    <a href="" class="btn btn-danger btn-icon icon-left">PDF</a>
                 </div>
             </div>
         </div>
@@ -343,7 +343,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-        
+
             $('#print_btn').on('click', function() {
                 let printContents = $('.invoice-print').html();
                 let originalContents = document.body.innerHTML;

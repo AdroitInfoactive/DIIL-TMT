@@ -262,7 +262,7 @@ if (!function_exists('updateCharges')) {
         session(['chargesSession_' . auth()->user()->id => $quotationCharges]);
         // return View::make('admin.quotation.charges-table', ['quotationCharges' => $quotationCharges])->render();
 
-        return $view = View::make('admin.quotation.product-table', ['quotationProducts' => $quotationSession, 'totalcalculations' => $totalcalculations, 'quotationCharges' => $quotationCharges])->render();
+        return $view = View::make('admin.order.product-table', ['quotationProducts' => $quotationSession, 'totalcalculations' => $totalcalculations, 'quotationCharges' => $quotationCharges])->render();
         // if ($quotationCharges != null) {
         //     $view .= "<--||-->" . $updtcharge;
         // }
@@ -305,7 +305,7 @@ if (!function_exists('generateQuoteNumber')) {
             $quotation_number .= "/" . strtoupper($entity_prefix);
         }
         $quotation_number .= "/" . $fy_year . "/" . str_pad($quot_no, 5, '0', STR_PAD_LEFT);
-        if($quot_type != ""){
+        if($quot_type != "N"){
             $quotation_number .= "/" . strtoupper($quot_type);
         }
         return $quotation_number;

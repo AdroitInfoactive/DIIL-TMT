@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\OrderMaster;
 use App\Models\OrderMasterDeleted;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -22,16 +23,38 @@ class OrderMasterDeletedDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'ordermasterdeleted.action')
+            ->addColumn('action', function ($query) {
+                $view = "<a href='" . route('order.show', $query->id) . "' class='btn btn-primary ml-2 mr-2 mb-2'title='View' ><i class='fas fa-eye'></i></a>";
+                return $view;
+            })
+            ->addColumn('order_no', function ($query) {
+                // call function to generate quote number
+                return '<b>' . generateQuoteNumber($query->order_main_prefix, $query->order_entity_prefix, $query->order_financial_year, $query->order_no, $query->order_type) . '</b>';
+            })
+            ->addColumn('date', function ($query) {
+                return date('d-m-Y', strtotime($query->created_at));
+            })
+            ->addColumn('client_name', function ($query) {
+                return $query->client?->name;
+            })
+            ->addColumn('prepared_by', function ($query) {
+                return $query->user?->name;
+            })
+            ->addColumn('status', function ($query) {
+                $html = '<span class="badge badge-danger">Deleted</span>';
+
+                return $html;
+            })
+            ->rawColumns(['action', 'order_no', 'date', 'client_name', 'prepared_by', 'status'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(OrderMasterDeleted $model): QueryBuilder
+    public function query(OrderMaster $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('order_delete_status', 'y');
     }
 
     /**
@@ -62,15 +85,17 @@ class OrderMasterDeletedDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('order_no'),
+            Column::make('date'),
+            Column::make('client_name'),
+            Column::make('prepared_by'),
+            Column::make('status'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(100)
+                ->addClass('text-center'),
         ];
     }
 

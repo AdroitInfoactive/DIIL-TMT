@@ -21,11 +21,11 @@
                                 <a class="nav-link" id="home-tab4" data-toggle="tab" href="#logo-setting" role="tab"
                                     aria-controls="home" aria-selected="true">Logo Settings</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" id="" data-toggle="tab" href="#mail-setting" role="tab"
                                     aria-controls="contact" aria-selected="false">Mail Settings</a>
                             </li>
-                            {{-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" id="home-tab4" data-toggle="tab" href="#appearance-setting" role="tab"
                                     aria-controls="home" aria-selected="true">Appearance Settings</a>
                             </li>

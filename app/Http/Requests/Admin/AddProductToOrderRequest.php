@@ -11,7 +11,7 @@ class AddProductToOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class AddProductToOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product' => ['required', 'exists:products,id'],
+            'description' => ['nullable'],
+            'uom' => ['required', 'exists:sizes,id'],
+            'quantity' => ['required', 'numeric'],
+            'make' => ['required', 'exists:vendors,id'],
+            'price' => ['required', 'numeric'],
+            'taxes' => ['nullable'],
         ];
     }
 }

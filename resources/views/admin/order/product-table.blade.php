@@ -10,30 +10,11 @@ namespace App\Models;
                 <th scope="col">Product</th>
                 <th scope="col">UOM</th>
                 <th scope="col" style="text-align: right;">Qty</th>
-                <th scope="col">Make 1</th>
+                <th scope="col">Make</th>
                 <th scope="col" style="text-align: right;">Price</th>
                 <th scope="col" style="text-align: right;">Total</th>
                 <th scope="col" style="text-align: right;">Tax</th>
                 <th scope="col" style="text-align: right;">Total</th>
-                @php
-                    $foundFlag = false;
-                @endphp
-                @foreach ($quotationProducts as $quotationProduct)
-                    @php
-                        $product = $quotationProduct['productData'];
-                        if (isset($product['disp_make2']) && $product['disp_make2'] == 1) {
-                            $foundFlag = true;
-                        }
-                    @endphp
-                @endforeach
-                @if ($foundFlag == true)
-                    <th scope="col" style="border-left: 1px solid #000;">Make 2</th>
-                    <th scope="col" style="text-align: right;">Qty 2</th>
-                    <th scope="col" style="text-align: right;">Price 2</th>
-                    <th scope="col" style="text-align: right;">Total 2</th>
-                    <th scope="col" style="text-align: right;">Tax 2</th>
-                    <th scope="col" style="text-align: right;">Total 2</th>
-                @endif
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -51,7 +32,6 @@ namespace App\Models;
                             @php
                                 $product_name = Product::find($product['product']);
                                 $make_name = Vendor::find($product['make']);
-                                $make2_name = Vendor::find($product['make2']);
                                 $size_name = Size::find($product['uom']);
                             @endphp
                             {{ @$product_name->name }}
@@ -79,42 +59,6 @@ namespace App\Models;
                         <td align="right">
                             {{ currencyPosition(@$quotationProduct['productMake1TotalAmount']) }}
                         </td>
-                        {{-- ----------------------------- make 2 ------------------------------------------------ --}}
-                        @if ($foundFlag == true)
-                            @if (isset($product['disp_make2']) && $product['disp_make2'] == 1)
-                                <td style="border-left: 1px solid #000;">{{ @$make2_name->name }}</td>
-                                <td align="right">{{ $product['quantity2'] }}</td>
-                                <td align="right">
-                                    {{ currencyPosition(@$product['price2']) }}
-                                </td>
-                                <td align="right">
-                                    {{ currencyPosition(@$quotationProduct['productMake2Total']) }}
-                                </td>
-                                <td align="right">
-                                    @if (isset($quotationProduct['productMake2Taxes']) &&
-                                            is_array($quotationProduct['productMake2Taxes']) &&
-                                            !empty($quotationProduct['productMake2Taxes']))
-                                        @foreach ($quotationProduct['productMake2Taxes'] as $tax2)
-                                            {{ $tax2['name'] }} ({{ $tax2['value'] }} %)
-                                            <br>
-                                            {{ currencyPosition($tax2['tax_amount']) }}<br>
-                                        @endforeach
-                                    @else
-                                        NA
-                                    @endif
-                                </td>
-                                <td align="right">
-                                    {{ currencyPosition(@$quotationProduct['productMake2TotalAmount']) }}
-                                </td>
-                            @else
-                                <td style="border-left: 1px solid #000;"></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            @endif
-                        @endif
                         <td>
                             <a href="#" class='btn btn-primary edit-product'
                                 data-id="{{ $quotationProduct['quoteProdId'] }}"><i class='fas fa-edit'></i>
@@ -141,24 +85,6 @@ namespace App\Models;
                         @endif
                         <td align="right" colspan="1">
                             <b>{{ currencyPosition(@$totalcalculations['make1priceWithTax']) }}</b></td>
-                        @if ($foundFlag == true)
-                            @if ($totalcalculations['make2totalAmount'] > 0)
-                                <td colspan="2" align="right" style="border-left: 1px solid #000;">
-                                    <b>{{ @$totalcalculations['total_make2_Quantity'] }}</b></td>
-                                <td align="right" colspan="">
-                                    <b>{{ currencyPosition(@$totalcalculations['make2price']) }}</b></td>
-                                <td align="right">
-                                    <b>{{ currencyPosition(@$totalcalculations['make2totalAmount']) }}</b></td>
-                                @if (@$totalcalculations['make2Tax'] > 0)
-                                    <td align="right"> <b>{{ currencyPosition(@$totalcalculations['make2Tax']) }}</b>
-                                    </td>
-                                @else
-                                    <td align="right" colspan=""> NA</td>
-                                @endif
-                                <td align="right">
-                                    <b>{{ currencyPosition(@$totalcalculations['make2priceWithTax']) }}</b></td>
-                            @endif
-                        @endif
                     </tr>
                 @endif
             @else
