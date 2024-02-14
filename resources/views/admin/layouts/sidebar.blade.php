@@ -89,7 +89,7 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Orders </span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setSidebarActive(['order.*','order.index', 'order.create', 'order.edit', 'order.show']) }}"><a class="nav-link"
+                    <li class="{{ setSidebarActive(['order.index', 'order.create', 'order.edit', 'order.show']) }}"><a class="nav-link"
                         href="{{ route('order.index') }}"><span>All</span></a></li>
                     {{-- <li class="{{ setSidebarActive(['order.pending']) }}"><a class="nav-link"
                             href="{{ route('order.pending') }}"><span>Pending</span></a></li>
