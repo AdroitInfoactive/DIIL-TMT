@@ -6,34 +6,38 @@
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-primary">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Total Clients</h4>
+                <a href="{{ route('client.index') }}" style="text-decoration: none;">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-primary">
+                            <i class="fas fa-users"></i>
                         </div>
-                        <div class="card-body">
-                            {{ $clients }}
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Clients</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $clients }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-danger">
-                        <i class="fas fa-bars"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Total Products</h4>
+                <a href="{{ route('product.index') }}" style="text-decoration: none;">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-danger">
+                            <i class="fas fa-bars"></i>
                         </div>
-                        <div class="card-body">
-                            {{ $products }}
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Total Products</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $products }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
         <h4>Todays Report</h4>

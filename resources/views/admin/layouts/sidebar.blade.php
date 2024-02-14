@@ -52,7 +52,7 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="{{ setSidebarActive(['dashboard']) }}"><a class="nav-link" href="{{ route('dashboard') }}"><i
-                        class="fas fa-fire"></i>General Dashboard</a>
+                        class="fas fa-fire"></i>Dashboard</a>
             </li>
             <li class="menu-header">Menus</li>
             <li
