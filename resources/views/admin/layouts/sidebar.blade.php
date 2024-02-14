@@ -52,7 +52,7 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="{{ setSidebarActive(['dashboard']) }}"><a class="nav-link" href="{{ route('dashboard') }}"><i
-                        class="fas fa-fire"></i>General Dashboard</a>
+                        class="fas fa-fire"></i>Dashboard</a>
             </li>
             <li class="menu-header">Menus</li>
             <li
@@ -89,10 +89,8 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Orders </span></a>
                 <ul class="dropdown-menu">
-                    <li
-                        class="{{ setSidebarActive(['order.*', 'order.index', 'order.create', 'order.edit', 'order.show']) }}">
-                        <a class="nav-link" href="{{ route('order.index') }}"><span>All</span></a>
-                    </li>
+                    <li class="{{ setSidebarActive(['order.*','order.index', 'order.create', 'order.edit', 'order.show']) }}"><a class="nav-link"
+                        href="{{ route('order.index') }}"><span>All</span></a></li>
                     {{-- <li class="{{ setSidebarActive(['order.pending']) }}"><a class="nav-link"
                             href="{{ route('order.pending') }}"><span>Pending</span></a></li>
                     <li class="{{ setSidebarActive(['order.accepted']) }}"><a class="nav-link"

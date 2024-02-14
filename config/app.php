@@ -170,7 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\settingsServiceProvider::class,
         App\Providers\CustomMailServiceProvider::class,
-        
+
     ])->toArray(),
 
     /*
