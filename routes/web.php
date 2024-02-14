@@ -31,7 +31,15 @@ Route::group(['middleware' => 'auth'], function () {
     /** Profile Routes **/
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('user/update/{id}', [ProfileController::class, 'updateUserProfile'])->name('user.update');
     Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    
+    Route::get('user', [ProfileController::class, 'users'])->name('user');
+    Route::get('user/edit/{id}', [ProfileController::class,'edit'])->name('user.edit');
+    Route::delete('user/delete/{id}', [ProfileController::class,'delete'])->name('user.delete');
+    Route::get('user/create', [ProfileController::class,'createUser'])->name('user.create');
+    Route::post('save', [ProfileController::class,'save'])->name('user.save');
+
 
     /** Collection Category Routes */
     Route::resource('tax', TaxController::class);

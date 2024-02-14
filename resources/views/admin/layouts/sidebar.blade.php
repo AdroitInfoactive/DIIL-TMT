@@ -74,6 +74,11 @@
                             href="{{ route('terms-and-conditions.index') }}"><span>Terms & Conditions</span></a></li>
                 </ul>
             </li>
+            @if (Auth::user()->id == 1)
+                <li class="{{ setSidebarActive(['user.*', 'user']) }}"><a class="nav-link"
+                        href="{{ route('user') }}"><i class="fas fa-users"></i><span>Users</span></a>
+                </li>
+            @endif
             <li class="{{ setSidebarActive(['product.*']) }}"><a class="nav-link"
                     href="{{ route('product.index') }}"><i class="fas fa-bars"></i><span>Products</span></a>
             </li>
@@ -84,8 +89,10 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Orders </span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setSidebarActive(['order.*','order.index', 'order.create', 'order.edit', 'order.show']) }}"><a class="nav-link"
-                        href="{{ route('order.index') }}"><span>All</span></a></li>
+                    <li
+                        class="{{ setSidebarActive(['order.*', 'order.index', 'order.create', 'order.edit', 'order.show']) }}">
+                        <a class="nav-link" href="{{ route('order.index') }}"><span>All</span></a>
+                    </li>
                     {{-- <li class="{{ setSidebarActive(['order.pending']) }}"><a class="nav-link"
                             href="{{ route('order.pending') }}"><span>Pending</span></a></li>
                     <li class="{{ setSidebarActive(['order.accepted']) }}"><a class="nav-link"
