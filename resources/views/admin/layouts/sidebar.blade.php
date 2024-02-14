@@ -102,6 +102,14 @@
 
                 </ul>
             </li>
+            <li class="dropdown {{ setSidebarActive(['receipt.*']) }}">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
+                    <span>Receipts </span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ setSidebarActive(['receipts.index']) }}"><a class="nav-link"
+                        href="="><span>All</span></a></li>
+                </ul>
+            </li>
             <li class="{{ setSidebarActive(['setting.index']) }}"><a class="nav-link"
                     href="{{ route('setting.index') }}"><i class="fas fa-cogs"></i><span>Settings</span></a></li>
         </ul>
