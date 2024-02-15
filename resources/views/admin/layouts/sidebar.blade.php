@@ -105,13 +105,15 @@
             <li class="{{ setSidebarActive(['receipt.*']) }}"><a class="nav-link"
                     href="{{ route('receipt.index') }}"><i class="fas fa-receipt"></i><span>Receipts</span></a>
             <li class="dropdown {{ setSidebarActive(['reports.*']) }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-receipt"></i>
                     <span>Reports</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ setSidebarActive(['reports.all-client-ledger']) }}"><a
                             class="nav-link" href="{{ route('reports.all-client-ledger') }}"><span>All Client Ledger Report</span></a></li>
-                    <li class="{{ setSidebarActive(['reports.client-ledger']) }}"><a
+                    <li class="{{ setSidebarActive(['reports.client-ledger', 'reports.client-ledger.*']) }}"><a
                             class="nav-link" href="{{ route('reports.client-ledger') }}"><span>Client Ledger</span></a></li>
+                    <li class="{{ setSidebarActive(['reports.products-sale-report']) }}"><a
+                            class="nav-link" href="{{ route('reports.products-sale-report') }}"><span>Product Sale Report</span></a></li>
                 </ul>
             </li>
             <li class="{{ setSidebarActive(['setting.index']) }}"><a class="nav-link"

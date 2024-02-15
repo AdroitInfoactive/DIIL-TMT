@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReceiptController;
 use App\Http\Controllers\Admin\ReportsAllClientLedgerController;
 use App\Http\Controllers\Admin\ReportsClientLedgerController;
+use App\Http\Controllers\Admin\ReportsProductSaleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TaxController;
@@ -90,8 +91,11 @@ Route::group(['middleware' => 'auth'], function () {
     // ------------------------------------ report routes ------------------------------------
     Route::get('reports/all-client-ledger', [ReportsAllClientLedgerController::class, 'allClientLedger'])->name('reports.all-client-ledger');
     Route::get('reports/all-client-ledger/get-report', [ReportsAllClientLedgerController::class, 'getReport'])->name('reports.all-client-ledger.get-report');
+    Route::get('reports/products-sale-report', [ReportsProductSaleController::class, 'allProductSaleReport'])->name('reports.products-sale-report');
+    Route::get('reports/products-sale-report/get-report', [ReportsProductSaleController::class, 'getReport'])->name('reports.products-sale-report.get-report');
     Route::get('reports/client-ledger', [ReportsClientLedgerController::class, 'clientLedger'])->name('reports.client-ledger');
     Route::get('reports/get-report', [ReportsClientLedgerController::class, 'getReport'])->name('reports.client-ledger.get-report');
+    Route::get('reports/client-report', [ReportsClientLedgerController::class, 'getReportNew'])->name('reports.client-ledger.client-report');
 
 
     /** Setting Routes */

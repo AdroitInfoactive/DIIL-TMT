@@ -67,7 +67,7 @@
                             <h4>Today Receipts</h4>
                         </div>
                         <div class="card-body">
-                            47
+                            {{ $todayReceipts }}
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                             <h4>Receipts</h4>
                         </div>
                         <div class="card-body">
-                            47
+                            {{ $currentMonthReceipts }}
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                             <h4>Receipts</h4>
                         </div>
                         <div class="card-body">
-                            47
+                            {{ $allReceipts }}
                         </div>
                     </div>
                 </div>

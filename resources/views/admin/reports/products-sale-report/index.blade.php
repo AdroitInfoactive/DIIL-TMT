@@ -1,5 +1,74 @@
 @extends('admin.layouts.master')
+<style>
+    .spinner {
+        height: 60px;
+        width: 60px;
+        margin: auto;
+        display: flex;
+        position: absolute;
+        -webkit-animation: rotation .6s infinite linear;
+        -moz-animation: rotation .6s infinite linear;
+        -o-animation: rotation .6s infinite linear;
+        animation: rotation .6s infinite linear;
+        border-left: 6px solid rgba(0, 174, 239, .15);
+        border-right: 6px solid rgba(0, 174, 239, .15);
+        border-bottom: 6px solid rgba(0, 174, 239, .15);
+        border-top: 6px solid rgba(0, 174, 239, .8);
+        border-radius: 100%;
+    }
 
+    @-webkit-keyframes rotation {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(359deg);
+        }
+    }
+
+    @-moz-keyframes rotation {
+        from {
+            -moz-transform: rotate(0deg);
+        }
+
+        to {
+            -moz-transform: rotate(359deg);
+        }
+    }
+
+    @-o-keyframes rotation {
+        from {
+            -o-transform: rotate(0deg);
+        }
+
+        to {
+            -o-transform: rotate(359deg);
+        }
+    }
+
+    @keyframes rotation {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(359deg);
+        }
+    }
+
+    #overlay {
+        position: absolute;
+        display: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        cursor: pointer;
+    }
+</style>
 @section('content')
     <section class="section">
         <div class="section-header">
@@ -7,7 +76,7 @@
         </div>
         <div class="card card-primary">
             <div class="card-header">
-                <h4>All Clients Ledger Report</h4>
+                <h4>Products Sale Report</h4>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -31,34 +100,31 @@
                         <button class="btn btn-primary reports-search">Search</button>
                     </div>
                 </div>
+                <div id="overlay" onclick="off()">
+                    <div class="w-100 d-flex justify-content-center align-items-center">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
                 <div class="card card-primary report-table">
-                    <h4>Ledger of All Clients from {{ date('d-m-Y', strtotime($from_date)) }} to
+                    <h4>Product Sale Report from {{ date('d-m-Y', strtotime($from_date)) }} to
                         {{ date('d-m-Y', strtotime($to_date)) }}</h4>
-                        <hr>
+                    <hr>
                     <div class="table-responsive">
                         <table class="table table-striped table-md">
                             <tr>
                                 <th>S.No</th>
-                                <th>Client Name</th>
-                                <th style="text-align: right;">Orders Placed</th>
-                                <th style="text-align: right;">Received Amount</th>
-                                <th style="text-align: right;">Balance</th>
+                                <th>Product</th>
+                                <th>UOM</th>
+                                <th>Make</th>
+                                <th style="text-align: right;">Quantity Sold</th>
                             </tr>
-                            @foreach ($receipts as $receipt)
+                            @foreach ($products as $product)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $receipt->client_name }}</td>
-                                    <td style="text-align: right;">{{ currencyPosition($receipt->ordered_amount) }}</td>
-                                    <td style="text-align: right;">{{ currencyPosition($receipt->received_amount) }}</td>
-                                    @php
-                                        if ($receipt->difference < 0) {
-                                            $clr_cls = 'color:red';
-                                        } else {
-                                            $clr_cls = 'color:green';
-                                        }
-                                    @endphp
-                                    <td style="text-align: right; {{ $clr_cls }};">
-                                        {{ currencyPosition($receipt->difference) }}</td>
+                                    <td>{{ $product->product_name }}</td>
+                                    <td>{{ $product->uom }}</td>
+                                    <td>{{ $product->make }}</td>
+                                    <td style="text-align: right;">{{ $product->quantity }}</td>
                                 </tr>
                             @endforeach
                         </table>
@@ -84,23 +150,25 @@
                     return;
                 }
                 $.ajax({
-                    url: "{{ route('reports.all-client-ledger.get-report') }}",
+                    url: "{{ route('reports.products-sale-report.get-report') }}",
                     method: "get",
                     data: {
                         from_date: from_date,
                         to_date: to_date
                     },
                     beforeSend: function() {
-
+                        document.getElementById("overlay").style.display = "flex";
                     },
                     success: function(data) {
                         $('.report-table').html(data);
+                        document.getElementById("overlay").style.display = "none";
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching reports, please try again.');
+                        document.getElementById("overlay").style.display = "none";
                     },
                     complete: function() {
-
+                        document.getElementById("overlay").style.display = "none";
                     }
                 })
             })

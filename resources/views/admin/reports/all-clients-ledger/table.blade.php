@@ -13,7 +13,9 @@
         @foreach ($receipts as $receipt)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $receipt->client_name }}</td>
+                <td><a
+                        href="{{ route('reports.client-ledger.client-report', ['client_id' => $receipt->client_id, 'from_date' => $from_date, 'to_date' => $to_date]) }}">{{ $receipt->client_name }}</a>
+                </td>
                 <td style="text-align: right;">{{ currencyPosition($receipt->ordered_amount) }}</td>
                 <td style="text-align: right;">{{ currencyPosition($receipt->received_amount) }}</td>
                 @php
