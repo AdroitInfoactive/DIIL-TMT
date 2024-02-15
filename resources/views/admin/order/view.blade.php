@@ -331,9 +331,9 @@
                         {{-- <a href="{{ route('order.revise', $qmaster->id) }}"
                             class="btn btn-info btn-icon icon-left"><i class="fas fa-history"></i>Revise</a> --}}
                     @endif
-                    <a href="{{ route('order.print', $qmaster->id) }}" class="btn btn-success btn-icon icon-left"><i
+                    {{-- <a href="{{ route('order.print', $qmaster->id) }}" class="btn btn-success btn-icon icon-left"><i
                             class="fas fa-print"></i>Print</a>
-                    <a href="" class="btn btn-danger btn-icon icon-left">PDF</a>
+                    <a href="" class="btn btn-danger btn-icon icon-left">PDF</a> --}}
                 </div>
             </div>
         </div>
