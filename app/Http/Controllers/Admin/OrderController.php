@@ -22,6 +22,7 @@ use App\Models\OrderMaster;
 use App\Models\OrderSessionData;
 use App\Models\OrderTax;
 use App\Models\OrderTerm;
+use App\Models\Receipt;
 use App\Models\Size;
 use App\Models\Tax;
 use App\Models\TermsAndCondition;
@@ -194,6 +195,19 @@ class OrderController extends Controller
                 $quotationCharge->save();
             }
         }
+        // -------------------- insert into receipts table --------------------
+        $receipt = new Receipt();
+        $receipt->client_id = $request->organization;
+        $receipt->received_date = now();
+        if (isset($request->make1ttl)) {
+            $receipt->ordered_amount = $request->make1ttl;
+        } else {
+            $receipt->ordered_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
+        }
+        $receipt->transaction_type = "order";
+        $receipt->transaction_reference = $masterId;
+        $receipt->description = "Receipt raised towards order";
+        $receipt->save();
         // send email
         // unset all sesison after creating order
         Session::forget('termsSession_' . auth()->user()->id);
@@ -413,8 +427,16 @@ class OrderController extends Controller
                 $quotationCharge->save();
             }
         }
+        // ------------------------ update receipt amount ------------------------------
+        $receipt = Receipt::where('transaction_reference', $id)->first();
+        if (isset($request->make1ttl)) {
+            $receipt->ordered_amount = $request->make1ttl;
+        } else {
+            $receipt->ordered_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
+        }
+        $receipt->save();
         // send email
-// unset all sesison after creating order
+        // unset all sesison after creating order
         Session::forget('termsSession_' . auth()->user()->id);
         Session::forget('chargesSession_' . auth()->user()->id);
         Session::forget('totalProductSession_' . auth()->user()->id);

@@ -87,10 +87,10 @@
             </li>
             <li class="dropdown {{ setSidebarActive(['order.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
-                    <span>Orders </span></a>
+                    <span>Orders</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setSidebarActive(['order.index', 'order.create', 'order.edit', 'order.show']) }}"><a class="nav-link"
-                        href="{{ route('order.index') }}"><span>All</span></a></li>
+                    <li class="{{ setSidebarActive(['order.index', 'order.create', 'order.edit', 'order.show']) }}"><a
+                            class="nav-link" href="{{ route('order.index') }}"><span>All</span></a></li>
                     {{-- <li class="{{ setSidebarActive(['order.pending']) }}"><a class="nav-link"
                             href="{{ route('order.pending') }}"><span>Pending</span></a></li>
                     <li class="{{ setSidebarActive(['order.accepted']) }}"><a class="nav-link"
@@ -102,12 +102,16 @@
 
                 </ul>
             </li>
-            <li class="dropdown {{ setSidebarActive(['receipt.*']) }}">
+            <li class="{{ setSidebarActive(['receipt.*']) }}"><a class="nav-link"
+                    href="{{ route('receipt.index') }}"><i class="fas fa-receipt"></i><span>Receipts</span></a>
+            <li class="dropdown {{ setSidebarActive(['reports.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
-                    <span>Receipts </span></a>
+                    <span>Reports</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setSidebarActive(['receipts.index']) }}"><a class="nav-link"
-                        href="="><span>All</span></a></li>
+                    <li class="{{ setSidebarActive(['reports.all-client-ledger']) }}"><a
+                            class="nav-link" href="{{ route('reports.all-client-ledger') }}"><span>All Client Ledger Report</span></a></li>
+                    <li class="{{ setSidebarActive(['reports.client-ledger']) }}"><a
+                            class="nav-link" href="{{ route('reports.client-ledger') }}"><span>Client Ledger</span></a></li>
                 </ul>
             </li>
             <li class="{{ setSidebarActive(['setting.index']) }}"><a class="nav-link"

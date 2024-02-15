@@ -7,8 +7,9 @@ use App\Models\Product;
 if (!function_exists('currencyPosition')) {
     function currencyPosition($price): string
     {
+        $isNegative = $price < 0;
         $decimal = (string) ($price - floor($price));
-        $money = floor($price);
+        $money = abs(floor($price)); // Take absolute value for calculation
         $length = strlen($money);
         $delimiter = '';
         $money = strrev($money);
@@ -31,11 +32,19 @@ if (!function_exists('currencyPosition')) {
             // If no decimal part, append .00
             $result .= '.00';
         }
+
         if (config('settings.site_currency_icon_position') === 'left') {
-            return config('settings.site_currency_icon') . $result;
+            $result = config('settings.site_currency_icon') . $result;
         } else {
-            return $result . config('settings.site_currency_icon');
+            $result .= config('settings.site_currency_icon');
         }
+
+        if ($isNegative) {
+            // If negative, append the negative symbol at the end
+            $result = '- ' . $result;
+        }
+
+        return $result;
     }
 }
 
@@ -294,6 +303,36 @@ if (!function_exists('getFinancialYear')) {
         return $fnclYr;
     }
 }
+// ---------------------- get financial year from April to march ------------------------------
+if (!function_exists('getFinancialYearWithDates')) {
+    function getFinancialYearWithDates()
+    {
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+        $financialYearStart = '';
+        $financialYearEnd = '';
+
+        if ($currentMonth > 3) {
+            // Financial year starts from April of current year
+            $financialYearStart = $currentYear . '-04-01';
+            // Financial year ends on March of next year
+            $financialYearEnd = ($currentYear + 1) . '-03-31';
+            $financialYearString = $currentYear . '-' . ($currentYear + 1);
+        } else {
+            // Financial year starts from April of previous year
+            $financialYearStart = ($currentYear - 1) . '-04-01';
+            // Financial year ends on March of current year
+            $financialYearEnd = $currentYear . '-03-31';
+            $financialYearString = ($currentYear - 1) . '-' . $currentYear;
+        }
+
+        return [
+            'start_date' => $financialYearStart,
+            'end_date' => $financialYearEnd,
+            'financial_year' => $financialYearString
+        ];
+    }
+}
 
 // ---------------------- Generate quotation Number ------------------------------
 if (!function_exists('generateQuoteNumber')) {
@@ -305,7 +344,7 @@ if (!function_exists('generateQuoteNumber')) {
             $quotation_number .= "/" . strtoupper($entity_prefix);
         }
         $quotation_number .= "/" . $fy_year . "/" . str_pad($quot_no, 5, '0', STR_PAD_LEFT);
-        if($quot_type != "N"){
+        if ($quot_type != "N") {
             $quotation_number .= "/" . strtoupper($quot_type);
         }
         return $quotation_number;
@@ -313,7 +352,7 @@ if (!function_exists('generateQuoteNumber')) {
 }
 
 if (!function_exists('clearSession')) {
- function clearSession()
+    function clearSession()
     {
         Session::forget('termsSession_' . auth()->user()->id);
         Session::forget('chargesSession_' . auth()->user()->id);

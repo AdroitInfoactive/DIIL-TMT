@@ -40,9 +40,9 @@ class OrderMasterDataTable extends DataTable
             ->addColumn('client_name', function ($query) {
                 return $query->client?->name;
             })
-            ->addColumn('prepared_by', function ($query) {
+            /* ->addColumn('prepared_by', function ($query) {
                 return $query->user?->name;
-            })
+            }) */
             /* ->addColumn('status', function ($query) {
                 if ($query->order_delete_status == 'y') {
                     $html = '<span class="badge badge-danger">Deleted</span>';
@@ -100,7 +100,7 @@ class OrderMasterDataTable extends DataTable
             Column::make('order_no'),
             Column::make('date'),
             Column::make('client_name'),
-            Column::make('prepared_by'),
+            // Column::make('prepared_by'),
             // Column::make('status'),
             Column::computed('action')
                 ->exportable(false)

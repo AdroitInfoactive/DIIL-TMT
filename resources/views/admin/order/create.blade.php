@@ -8,7 +8,7 @@
         </div>
         <div class="card card-primary">
             <div class="card-header">
-                <h4>Create Order</h4>
+                <h4>Add Order</h4>
             </div>
             <div class="card-body">
                 <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
@@ -93,7 +93,7 @@
                             <option value="0">Inactive</option>
                         </select>
                     </div> --}}
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </form>
             </div>
         </div>

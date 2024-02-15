@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\InvoiceEntityController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ReceiptController;
+use App\Http\Controllers\Admin\ReportsAllClientLedgerController;
+use App\Http\Controllers\Admin\ReportsClientLedgerController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TaxController;
@@ -33,7 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
     Route::put('user/update/{id}', [ProfileController::class, 'updateUserProfile'])->name('user.update');
     Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
-    
+
     Route::get('user', [ProfileController::class, 'users'])->name('user');
     Route::get('user/edit/{id}', [ProfileController::class,'edit'])->name('user.edit');
     Route::delete('user/delete/{id}', [ProfileController::class,'delete'])->name('user.delete');
@@ -81,8 +84,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('order/rejected', [OrderController::class, 'rejected'])->name('order.rejected');
     Route::get('order/deleted', [OrderController::class, 'deleted'])->name('order.deleted');
 
-
     Route::resource('order', OrderController::class);
+
+    Route::resource('receipt', ReceiptController::class);
+    // ------------------------------------ report routes ------------------------------------
+    Route::get('reports/all-client-ledger', [ReportsAllClientLedgerController::class, 'allClientLedger'])->name('reports.all-client-ledger');
+    Route::get('reports/all-client-ledger/get-report', [ReportsAllClientLedgerController::class, 'getReport'])->name('reports.all-client-ledger.get-report');
+    Route::get('reports/client-ledger', [ReportsClientLedgerController::class, 'clientLedger'])->name('reports.client-ledger');
+    Route::get('reports/get-report', [ReportsClientLedgerController::class, 'getReport'])->name('reports.client-ledger.get-report');
 
 
     /** Setting Routes */
