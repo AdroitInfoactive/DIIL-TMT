@@ -65,7 +65,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        // clearSession();
+        clearSession();
         // unset session
         // Session::forget('chargesSession_' . auth()->user()->id);
         $invoiceEntities = InvoiceEntity::where('status', 1)->get();

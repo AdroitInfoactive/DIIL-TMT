@@ -108,6 +108,22 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            function beforeUnloadHandler(e) {
+                // Custom message to prompt the user for confirmation
+                var confirmationMessage =
+                    'Are you sure you want to refresh the page? Any unsaved changes will be lost.';
+                // Set the confirmation message (not supported in all browsers)
+                e.returnValue = confirmationMessage;
+                // Show the confirmation dialog (supported in most modern browsers)
+                return confirmationMessage;
+            }
+            // Add event listener for beforeunload
+            window.addEventListener('beforeunload', beforeUnloadHandler);
+            // Add event listener for form submit
+            $(document).on("submit", "form", function() {
+                // Remove the beforeunload event listener temporarily
+                window.removeEventListener('beforeunload', beforeUnloadHandler);
+            });
             // Function to load client details
             function loadClientDetails(org_id) {
                 if (org_id != '') {
@@ -199,7 +215,7 @@
                     }
                 });
             });
-            // -----------------------end terms and conditions ----------------------------  
+            // -----------------------end terms and conditions ----------------------------
             // ----------------------- charges-------------------------------------------
             $(document).on('click', '#charges', function(e) {
                 e.preventDefault();
@@ -304,7 +320,7 @@
                     }
                 })
             })
-        
+
             // ----------------------add product session and display--------------------------
             $(document).on('click', '.add_product', function(e) {
                 e.preventDefault();
@@ -365,7 +381,7 @@
                 if (sessionId == '') {
                     $('.add_product_form')[0].reset();
                     $('#sessionId').val('');
-                    $('.select2pop').val('').trigger('change');               
+                    $('.select2pop').val('').trigger('change');
                     $('.button_to_submit').html(
                         '<button type="button" class="btn btn-primary add_product">Add</button>'
                     )
@@ -391,7 +407,7 @@
                                 $('#make').val(data.productData.make).trigger(
                                     'change');
                                 $('#price').val(data.productData.price);
-                               
+
                                 $('.button_to_submit').html(
                                     '<button type="button" class="btn btn-primary add_product">Edit</button>'
                                 )

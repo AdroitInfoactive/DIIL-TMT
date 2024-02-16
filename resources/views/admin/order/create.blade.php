@@ -107,7 +107,22 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-
+            function beforeUnloadHandler(e) {
+                // Custom message to prompt the user for confirmation
+                var confirmationMessage =
+                    'Are you sure you want to refresh the page? Any unsaved changes will be lost.';
+                // Set the confirmation message (not supported in all browsers)
+                e.returnValue = confirmationMessage;
+                // Show the confirmation dialog (supported in most modern browsers)
+                return confirmationMessage;
+            }
+            // Add event listener for beforeunload
+            window.addEventListener('beforeunload', beforeUnloadHandler);
+            // Add event listener for form submit
+            $(document).on("submit", "form", function() {
+                // Remove the beforeunload event listener temporarily
+                window.removeEventListener('beforeunload', beforeUnloadHandler);
+            });
             // ---------------------- load old values ----------------------------
             var inv_entity_id = $('#invoice_entity').val();
             var org_id = $('#organization').val();
