@@ -2,6 +2,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
+use App\Models\Expense;
+use App\Models\OrderCharge;
+use App\Models\OrderDetail;
+use App\Models\OrderMaster;
+use App\Models\OrderSessionData;
+use App\Models\OrderTax;
+use App\Models\OrderTerm;
+use App\Models\Product;
+use App\Models\Receipt;
 use App\Models\Setting;
 use App\Services\SettingsService;
 use App\Traits\FileUploadTrait;
@@ -46,49 +56,6 @@ class SettingController extends Controller
         toastr()->success('Updated Successfully!');
         return redirect()->back();
     }
-    function UpdatePusherSetting(Request $request): RedirectResponse
-    {
-        $validatedData = $request->validate([
-            'pusher_app_id' => ['required'],
-            'pusher_key' => ['required'],
-            'pusher_secret' => ['required'],
-            'pusher_cluster' => ['required'],
-        ]);
-        foreach ($validatedData as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
-        }
-        $settingsService = app(SettingsService::class);
-        $settingsService->clearCachedSettings();
-        toastr()->success('Updated Successfully!');
-        return redirect()->back();
-    }
-    function UpdateMailSetting(Request $request)
-    {
-        $validatedData = $request->validate([
-            'mail_driver' => ['required'],
-            'mail_host' => ['required'],
-            'mail_port' => ['required'],
-            'mail_username' => ['required'],
-            'mail_password' => ['required'],
-            'mail_encryption' => ['required'],
-            'mail_from_address' => ['required'],
-            'mail_receive_address' => ['required'],
-        ]);
-        foreach ($validatedData as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
-        }
-        $settingsService = app(SettingsService::class);
-        $settingsService->clearCachedSettings();
-        Cache::forget('mail_settings');
-        toastr()->success('Updated Successfully!');
-        return redirect()->back();
-    }
     function UpdateLogoSetting(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
@@ -114,40 +81,41 @@ class SettingController extends Controller
         toastr()->success('Updated Successfully!');
         return redirect()->back();
     }
-    function UpdateAppearanceSetting(Request $request): RedirectResponse
+    function DeleteData(Request $request)
     {
-        $validatedData = $request->validate([
-            'site_color' => ['required']
-        ]);
-        foreach ($validatedData as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
+        $data = $request->modules;
+        foreach ($data as $key => $value) {
+            if ($value == 'clients')
+            {
+                Client::query()->delete();
+            }
+            if ($value == 'products')
+            {
+                Product::query()->delete();
+            }
+            if ($value == 'expenses')
+            {
+                Expense::query()->delete();
+            }
+            if ($value == 'orders')
+            {
+                $orders = Receipt::where('transaction_type', 'order')->get();
+                foreach ($orders as $order) {
+                    $order_id = $order->transaction_reference;
+                    OrderCharge::where('order_charge_master_id', $order_id)->delete();
+                    OrderTerm::where('order_terms_master_id', $order_id)->delete();
+                    OrderTax::where('order_tax_master_id', $order_id)->delete();
+                    OrderDetail::where('order_detail_master_id', $order_id)->delete();
+                    OrderSessionData::where('order_session_master_id', $order_id)->delete();
+                    OrderMaster::where('id', $order_id)->delete();
+                    Receipt::where('transaction_reference', $order_id)->delete();
+                }
+            }
+            if ($value == 'receipts')
+            {
+                Receipt::whereNotNull('received_amount')->delete();
+            }
         }
-        $settingsService = app(SettingsService::class);
-        $settingsService->clearCachedSettings();
-        Cache::forget('mail_settings');
-        toastr()->success('Updated Successfully!');
-        return redirect()->back();
-    }
-    function UpdateSeoSetting(Request $request): RedirectResponse
-    {
-        $validatedData = $request->validate([
-            'seo_title' => ['required', 'max:255'],
-            'seo_description' => ['nullable', 'max:600'],
-            'seo_keywords' => ['nullable']
-        ]);
-        foreach ($validatedData as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
-        }
-        $settingsService = app(SettingsService::class);
-        $settingsService->clearCachedSettings();
-        Cache::forget('mail_settings');
-        toastr()->success('Updated Successfully!');
-        return redirect()->back();
+        return response(['status' => "success", 'message' => 'Data deleted successfully.']);
     }
 }

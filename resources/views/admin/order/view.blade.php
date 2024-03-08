@@ -27,7 +27,7 @@
                                 <div class="col-md-6 text-md-right">
                                     <address>
                                         Order Date:
-                                        <strong>{{ date('d/m/Y', strtotime($qmaster->created_at)) }}</strong>
+                                        <strong>{{ $qmaster->order_date }}</strong>
                                     </address>
                                     <address>
                                         Order Status:
@@ -314,7 +314,7 @@
                                 <div class="col-lg-8">
                                     <div class="section-title" style="margin: 5px 0 5px 0;">Notes</div>
                                     <div class="invoice-note">{!! $qmaster->order_note !!}</div>
-                                    <p class="mt-4">Prepared By: <b>{{ $qmaster->user?->name }}</b></p>
+                                    <p class="mt-4">Order Prepared by: <b>{{ $qmaster->user?->name }}</b></p>
                                 </div>
                             </div>
                         </div>

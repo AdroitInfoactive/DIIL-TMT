@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('order_type')->default('N');
             $table->string('order_no');
             $table->string('order_note')->nullable();
+            $table->date('order_date');
             $table->float('order_total_quantity');
             $table->float('order_total_amount');
             $table->float('order_total_amount_withcharges');

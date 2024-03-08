@@ -39,9 +39,9 @@ use App\Models\OrderMaster; // Check the correct path
                             $opening_balance = 0; // or any other default value you want
                         }
                         if ($opening_balance < 0) {
-                            $op_clr_cls = 'color:red';
-                        } else {
                             $op_clr_cls = 'color:green';
+                        } else {
+                            $op_clr_cls = 'color:red';
                         }
                     @endphp
                     <td style="text-align: right; {{ $op_clr_cls }};"><b>{{ currencyPosition($opening_balance) }}</b>
@@ -73,9 +73,9 @@ use App\Models\OrderMaster; // Check the correct path
                             }
                         @endphp
                         <td>{{ $description }}</td>
-                        <td style="text-align: right; color:green;">{{ currencyPosition($receipt->ordered_amount) }}
+                        <td style="text-align: right; color:red;">{{ currencyPosition($receipt->ordered_amount) }}
                         </td>
-                        <td style="text-align: right; color:red;">{{ currencyPosition($receipt->received_amount) }}
+                        <td style="text-align: right; color:green;">{{ currencyPosition($receipt->received_amount) }}
                         </td>
                         @php
                             $ordered_total += $receipt->ordered_amount;
@@ -86,9 +86,9 @@ use App\Models\OrderMaster; // Check the correct path
                                 $closing_balance = $closing_balance + $receipt->received_amount - $receipt->ordered_amount;
                             }
                             if ($closing_balance < 0) {
-                                $clr_cls = 'color:red';
-                            } else {
                                 $clr_cls = 'color:green';
+                            } else {
+                                $clr_cls = 'color:red';
                             }
                         @endphp
                         <td style="text-align: right; {{ $clr_cls }};">{{ currencyPosition($closing_balance) }}
@@ -97,8 +97,8 @@ use App\Models\OrderMaster; // Check the correct path
                 @endforeach
                 <tr style="border-top: 1px solid black;">
                     <td colspan="4" style="text-align: right;"><b>Total</b></td>
-                    <td style="text-align: right; color:green">{{ currencyPosition($ordered_total) }}</td>
-                    <td style="text-align: right; color:red">{{ currencyPosition($receipt_total) }}</td>
+                    <td style="text-align: right; color:red">{{ currencyPosition($ordered_total) }}</td>
+                    <td style="text-align: right; color:green">{{ currencyPosition($receipt_total) }}</td>
                     <td style="text-align: right; {{ $clr_cls }};">{{ currencyPosition($closing_balance) }}</td>
                 </tr>
             </table>

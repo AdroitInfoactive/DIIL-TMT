@@ -15,29 +15,27 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Organisation Name * </label>
-                                <input type="text" name="name" value="{{ old('name') }}"
-                                    class="form-control">
+                                <label>Client Name </label>
+                                <input type="text" name="name" value="{{ old('name') }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Email Id *</label>
+                                <label>Email Id </label>
                                 <input type="text" name="email" value="{{ old('email') }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label>GST Number</label>
-                                <input type="text" name="gst_no" value="{{ old('gst_no') }}"
-                                    class="form-control">
+                                <input type="text" name="gst_no" value="{{ old('gst_no') }}" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Address *</label>
+                                <label>Address </label>
                                 <input type="text" name="address" value="{{ old('address') }}" class="form-control">
                             </div>
                         </div>
@@ -49,7 +47,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>City *</label>
+                                <label>City </label>
                                 <input type="text" name="city" value="{{ old('city') }}" class="form-control">
                             </div>
                         </div>
@@ -57,19 +55,19 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>State *</label>
+                                <label>State </label>
                                 <input type="text" name="state" value="{{ old('state') }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Country *</label>
+                                <label>Country </label>
                                 <input type="text" name="country" value="{{ old('country') }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Pincode *</label>
+                                <label>Pincode </label>
                                 <input type="text" name="pincode" value="{{ old('pincode') }}" class="form-control">
                             </div>
                         </div>
@@ -79,14 +77,14 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Person Name *</label>
+                                <label>Person Name </label>
                                 <input type="text" name="primary_name" value="{{ old('primary_name') }}"
                                     class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Mobile *</label>
+                                <label>Mobile </label>
                                 <input type="text" name="primary_mobile" value="{{ old('primary_mobile') }}"
                                     class="form-control">
                             </div>
@@ -94,8 +92,8 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label>Whatsapp</label>
-                                <input type="text" name="primary_whatsapp"
-                                    value="{{ old('primary_whatsapp') }}" class="form-control">
+                                <input type="text" name="primary_whatsapp" value="{{ old('primary_whatsapp') }}"
+                                    class="form-control">
                             </div>
                         </div>
                     </div>
@@ -119,8 +117,8 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label>Whatsapp</label>
-                                <input type="text" name="secondary_whatsapp"
-                                    value="{{ old('secondary_whatsapp') }}" class="form-control">
+                                <input type="text" name="secondary_whatsapp" value="{{ old('secondary_whatsapp') }}"
+                                    class="form-control">
                             </div>
                         </div>
                     </div>
@@ -130,7 +128,7 @@
                         <textarea name="description" id="" cols="30" rows="10" class="form-control"> {!! old('description') !!}</textarea>
                     </div>
                     <div class="form-group">
-                        <label>Status *</label>
+                        <label>Status </label>
                         <select name="status" class="form-control">
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>

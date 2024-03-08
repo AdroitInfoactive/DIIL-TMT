@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ChargesController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\CollectionTaxController;
+use App\Http\Controllers\Admin\ExpensesController;
 use App\Http\Controllers\Admin\InvoiceEntityController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReceiptController;
 use App\Http\Controllers\Admin\ReportsAllClientLedgerController;
 use App\Http\Controllers\Admin\ReportsClientLedgerController;
+use App\Http\Controllers\Admin\ReportsOverallClientLedger;
 use App\Http\Controllers\Admin\ReportsProductSaleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SizeController;
@@ -88,6 +90,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('order', OrderController::class);
 
     Route::resource('receipt', ReceiptController::class);
+    Route::resource('expenses', ExpensesController::class);
     // ------------------------------------ report routes ------------------------------------
     Route::get('reports/all-client-ledger', [ReportsAllClientLedgerController::class, 'allClientLedger'])->name('reports.all-client-ledger');
     Route::get('reports/all-client-ledger/get-report', [ReportsAllClientLedgerController::class, 'getReport'])->name('reports.all-client-ledger.get-report');
@@ -96,14 +99,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('reports/client-ledger', [ReportsClientLedgerController::class, 'clientLedger'])->name('reports.client-ledger');
     Route::get('reports/get-report', [ReportsClientLedgerController::class, 'getReport'])->name('reports.client-ledger.get-report');
     Route::get('reports/client-report', [ReportsClientLedgerController::class, 'getReportNew'])->name('reports.client-ledger.client-report');
+    Route::get('reports/overall-ledger-report', [ReportsOverallClientLedger::class, 'overallLedgerReport'])->name('reports.overall-ledger-report');
+    Route::get('reports/overall-ledger-report/get-report', [ReportsOverallClientLedger::class, 'getReport'])->name('reports.overall-ledger-report.get-report');
 
 
     /** Setting Routes */
     Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
     Route::put('/general-setting', [SettingController::class, 'UpdateGeneralSetting'])->name('general-setting.update');
-    Route::put('/pusher-setting', [SettingController::class, 'UpdatePusherSetting'])->name('pusher-setting.update');
-    Route::put('/mail-setting', [SettingController::class, 'UpdateMailSetting'])->name('mail-setting.update');
     Route::put('/logo-setting', [SettingController::class, 'UpdateLogoSetting'])->name('logo-setting.update');
-    Route::put('/appearance-setting', [SettingController::class, 'UpdateAppearanceSetting'])->name('appearance-setting.update');
-    Route::put('/seo-setting', [SettingController::class, 'UpdateSeoSetting'])->name('seo-setting.update');
+    Route::post('/delete-data', [SettingController::class, 'DeleteData'])->name('setting.delete-data');
 });

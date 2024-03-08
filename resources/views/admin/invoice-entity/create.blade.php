@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Invoice Entity * </label>
+                                <label>Invoice Entity </label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control">
                             </div>
                         </div>
@@ -27,8 +27,9 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Invoice Prefix *</label>
-                                <input type="text" name="invoice_prefix" value="{{ old('invoice_prefix') }}" class="form-control" placeholder="e.g. AB">
+                                <label>Invoice Prefix </label>
+                                <input type="text" name="invoice_prefix" value="{{ old('invoice_prefix') }}"
+                                    class="form-control" placeholder="e.g. AB">
                             </div>
                         </div>
                     </div>
@@ -36,7 +37,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Address *</label>
+                                <label>Address </label>
                                 <input type="text" name="address" value="{{ old('address') }}" class="form-control">
                             </div>
                         </div>
@@ -48,7 +49,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>City *</label>
+                                <label>City </label>
                                 <input type="text" name="city" value="{{ old('city') }}" class="form-control">
                             </div>
                         </div>
@@ -56,19 +57,19 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>State *</label>
+                                <label>State </label>
                                 <input type="text" name="state" value="{{ old('state') }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Country *</label>
+                                <label>Country </label>
                                 <input type="text" name="country" value="{{ old('country') }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Pincode *</label>
+                                <label>Pincode </label>
                                 <input type="text" name="pincode" value="{{ old('pincode') }}" class="form-control">
                             </div>
                         </div>
@@ -78,22 +79,23 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label>Person Name *</label>
+                                <label>Person Name </label>
                                 <input type="text" name="primary_name" value="{{ old('primary_name') }}"
                                     class="form-control">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label>Email Id *</label>
-                                <input type="text" name="primary_email" value="{{ old('primary_email') }}" class="form-control">
+                                <label>Email Id </label>
+                                <input type="text" name="primary_email" value="{{ old('primary_email') }}"
+                                    class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label>Mobile *</label>
+                                <label>Mobile </label>
                                 <input type="text" name="primary_mobile" value="{{ old('primary_mobile') }}"
                                     class="form-control">
                             </div>
@@ -142,8 +144,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Branch</label>
-                                <input type="text" name="branch" value="{{ old('branch') }}"
-                                    class="form-control">
+                                <input type="text" name="branch" value="{{ old('branch') }}" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -153,7 +154,7 @@
                         <textarea name="description" id="" cols="30" rows="10" class="form-control"> {!! old('description') !!}</textarea>
                     </div>
                     <div class="form-group">
-                        <label>Status *</label>
+                        <label>Status </label>
                         <select name="status" class="form-control">
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>

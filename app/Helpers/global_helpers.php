@@ -39,10 +39,10 @@ if (!function_exists('currencyPosition')) {
             $result .= config('settings.site_currency_icon');
         }
 
-        if ($isNegative) {
+        /* if ($isNegative) {
             // If negative, append the negative symbol at the end
             $result = '- ' . $result;
-        }
+        } */
 
         return $result;
     }

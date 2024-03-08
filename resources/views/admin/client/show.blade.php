@@ -17,12 +17,12 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Organisation Name * </label><p>{{ $client->name }}</p>
+                                    <label>Organisation Name </label><p>{{ $client->name }}</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Email Id *</label>
+                                    <label>Email Id</label>
                                     <p>{{ $client->email }}</p>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Address *</label>
+                                    <label>Address</label>
                                     <p>{{ $client->address }}</p>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>City *</label>
+                                    <label>City</label>
                                     <p>{{ $client->city }}</p>
                                 </div>
                             </div>
@@ -56,19 +56,19 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>State *</label>
+                                    <label>State</label>
                                     <p>{{ $client->state }}</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Country *</label>
+                                    <label>Country</label>
                                     <p>{{ $client->country }}</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Pincode *</label>
+                                    <label>Pincode</label>
                                     <p>{{ $client->pincode }}</p>
                                 </div>
                             </div>
@@ -78,13 +78,13 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Person Name *</label>
+                                    <label>Person Name</label>
                                     <p>{{ $client->primary_name }}</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Mobile *</label>
+                                    <label>Mobile</label>
                                     <p>{{ $client->primary_mobile }}</p>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                             <p>{!! $client->description !!}</p>
                         </div>
                         <div class="form-group">
-                            <label>Status *</label>
+                            <label>Status</label>
                             @if ($client->status == 1)
                                 <p>Active</p>
                             @else

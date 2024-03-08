@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Invoice Entity * </label>
+                                    <label>Invoice Entity </label>
                                     <p>{{ $invoiceEntity->name }}</p>
                                 </div>
                             </div>
@@ -28,7 +28,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Invoice Prefix *</label>
+                                    <label>Invoice Prefix</label>
                                     <p>{{ $invoiceEntity->invoice_prefix }}</p>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Address *</label>
+                                    <label>Address</label>
                                     <p>{{ $invoiceEntity->address }}</p>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>City *</label>
+                                    <label>City</label>
                                     <p>{{ $invoiceEntity->city }}</p>
                                 </div>
                             </div>
@@ -56,19 +56,19 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>State *</label>
+                                    <label>State</label>
                                     <p>{{ $invoiceEntity->state }}</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Country *</label>
+                                    <label>Country</label>
                                     <p>{{ $invoiceEntity->country }}</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Pincode *</label>
+                                    <label>Pincode</label>
                                     <p>{{ $invoiceEntity->pincode }}</p>
                                 </div>
                             </div>
@@ -78,13 +78,13 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Person Name *</label>
+                                    <label>Person Name</label>
                                     <p>{{ $invoiceEntity->primary_name }}</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Email Id *</label>
+                                    <label>Email Id</label>
                                     <p>{{ $invoiceEntity->primary_email }}</p>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>Mobile *</label>
+                                    <label>Mobile</label>
                                     <p>{{ $invoiceEntity->primary_mobile }}</p>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
                             <p>{!! $invoiceEntity->description !!}</p>
                         </div>
                         <div class="form-group">
-                            <label>Status *</label>
+                            <label>Status</label>
                             @if ($invoiceEntity->status == 1)
                                 <p>Active</p>
                             @else

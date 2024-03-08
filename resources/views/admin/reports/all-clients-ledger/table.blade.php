@@ -20,9 +20,9 @@
                 <td style="text-align: right;">{{ currencyPosition($receipt->received_amount) }}</td>
                 @php
                     if ($receipt->difference < 0) {
-                        $clr_cls = 'color:red';
-                    } else {
                         $clr_cls = 'color:green';
+                    } else {
+                        $clr_cls = 'color:red';
                     }
                 @endphp
                 <td style="text-align: right; {{ $clr_cls }};">

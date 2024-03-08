@@ -94,6 +94,7 @@ class OrderController extends Controller
             'invoice_entity' => ['required', 'max:255', 'exists:invoice_entities,id'],
             'organization' => ['required', 'max:500', 'exists:clients,id'],
             'prepared_by' => ['required', 'max:500', 'exists:users,name'],
+            'order_date' => ['required'],
             'note' => ['nullable', 'string', 'max:5000'],
         ]);
         if (!sessionExists('productSession_' . auth()->user()->id)) {
@@ -118,6 +119,7 @@ class OrderController extends Controller
             $qmaster->order_no = OrderMaster::where(['order_financial_year' => getFinancialYear(), 'order_entity_prefix' => InvoiceEntity::where('id', $request->invoice_entity)->value('invoice_prefix')])->count() + 1;
         }
         $qmaster->order_note = $request->note;
+        $qmaster->order_date = $request->order_date;
         $qmaster->order_total_quantity = Session::get('totalProductSession_' . auth()->user()->id)['total_make1_Quantity'];
         $qmaster->order_total_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
         if (isset($request->make1ttl)) {
@@ -198,7 +200,7 @@ class OrderController extends Controller
         // -------------------- insert into receipts table --------------------
         $receipt = new Receipt();
         $receipt->client_id = $request->organization;
-        $receipt->received_date = now();
+        $receipt->received_date = $request->order_date;
         if (isset($request->make1ttl)) {
             $receipt->ordered_amount = $request->make1ttl;
         } else {
@@ -340,6 +342,7 @@ class OrderController extends Controller
             'invoice_entity' => ['required', 'max:255', 'exists:invoice_entities,id'],
             'organization' => ['required', 'max:500', 'exists:clients,id'],
             'prepared_by' => ['required', 'max:500', 'exists:users,name'],
+            'order_date' => ['required'],
             'note' => ['nullable', 'string', 'max:5000'],
         ]);
         $qmaster = OrderMaster::findOrFail($id);
@@ -350,6 +353,7 @@ class OrderController extends Controller
         $qmaster->user_id = Auth::user()->id;
         $qmaster->client_id = $request->organization;
         $qmaster->order_note = $request->note;
+        $qmaster->order_date = $request->order_date;
         $qmaster->order_total_quantity = Session::get('totalProductSession_' . auth()->user()->id)['total_make1_Quantity'];
         $qmaster->order_total_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
         if (isset($request->make1ttl)) {
@@ -431,6 +435,7 @@ class OrderController extends Controller
         $receipt = Receipt::where('transaction_reference', $id)->first();
         if (isset($request->make1ttl)) {
             $receipt->ordered_amount = $request->make1ttl;
+            $receipt->received_date = $request->order_date;
         } else {
             $receipt->ordered_amount = Session::get('totalProductSession_' . auth()->user()->id)['make1priceWithTax'];
         }

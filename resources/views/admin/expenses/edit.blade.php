@@ -3,64 +3,33 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Receipts</h1>
+            <h1>Expenses</h1>
         </div>
         <div class="card card-primary">
             <div class="card-header">
-                <h4>Add Receipt</h4>
+                <h4>Update Expense</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('receipt.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('expenses.update', $expense->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Client * </label>
-                                <select name="client_id" id="client_id" class="select2 form-control">
-                                    <option value="">Select Client *</option>
-                                    @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}"
-                                            @if (old('client_id') == $client->id) selected @endif>{{ $client->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <label>Name *</label>
+                                <input type="text" name="name" class="form-control" value="{{ $expense->name }}">
                             </div>
                         </div>
-                        <div class="col-8" id="client-details"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label>Received Date *</label>
-                                <input type="date" name="received_date" class="form-control" value="{{ date('Y-m-d') }}">
+                                <input type="date" name="expenses_date" class="form-control" value="{{ date($expense->expenses_date) }}">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label>Amount *</label>
-                                <input type="text" name="received_amount" value="{{ old('received_amount') }}"
-                                    class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label>Transaction Type *</label>
-                                <select name="transaction_type" id="transaction_type" class="select2 form-control">
-                                    <option value="">Select Transaction Type *</option>
-                                    <option value="cash" @if (old('transaction_type') == 'cash') selected @endif>Cash</option>
-                                    <option value="cheque" @if (old('transaction_type') == 'cheque') selected @endif>Cheque</option>
-                                    <option value="bank transfer" @if (old('transaction_type') == 'bank transfer') selected @endif>Bank
-                                        Transfer</option>
-                                    <option value="others" @if (old('transaction_type') == 'others') selected @endif>Others</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label>Transaction Reference Number </label>
-                                <input type="text" name="transaction_id" value="{{ old('transaction_id') }}"
+                                <input type="text" name="expenses_amount" value="{{ $expense->expenses_amount }}"
                                     class="form-control">
                             </div>
                         </div>
@@ -69,11 +38,11 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{ old('description') }}</textarea>
+                                <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{ $expense->description }}</textarea>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
             </div>
         </div>

@@ -16,13 +16,13 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Organisation Name * </label>
+                                <label>Client Name </label>
                                 <input type="text" name="name" value="{{ $client->name }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Email Id *</label>
+                                <label>Email Id</label>
                                 <input type="text" name="email" value="{{ $client->email }}" class="form-control">
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Address *</label>
+                                <label>Address</label>
                                 <input type="text" name="address" value="{{ $client->address }}" class="form-control">
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>City *</label>
+                                <label>City</label>
                                 <input type="text" name="city" value="{{ $client->city }}" class="form-control">
                             </div>
                         </div>
@@ -56,19 +56,19 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>State *</label>
+                                <label>State</label>
                                 <input type="text" name="state" value="{{ $client->state }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Country *</label>
+                                <label>Country</label>
                                 <input type="text" name="country" value="{{ $client->country }}" class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Pincode *</label>
+                                <label>Pincode</label>
                                 <input type="text" name="pincode" value="{{ $client->pincode }}" class="form-control">
                             </div>
                         </div>
@@ -78,14 +78,14 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Person Name *</label>
+                                <label>Person Name</label>
                                 <input type="text" name="primary_name" value="{{ $client->primary_name }}"
                                     class="form-control">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>Mobile *</label>
+                                <label>Mobile</label>
                                 <input type="text" name="primary_mobile" value="{{ $client->primary_mobile }}"
                                     class="form-control">
                             </div>
@@ -129,7 +129,7 @@
                         <textarea name="description" id="" cols="30" rows="10" class="form-control"> {!! $client->description !!}</textarea>
                     </div>
                     <div class="form-group">
-                        <label>Status *</label>
+                        <label>Status</label>
                         <select name="status" class="form-control">
                             <option value="1" @selected($client->status === 1)>Active</option>
                             <option value="0" @selected($client->status === 0)>Inactive</option>

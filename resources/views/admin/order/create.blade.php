@@ -18,10 +18,13 @@
                             <div class="form-group">
                                 <select name="invoice_entity" id="invoice_entity" class="select2 form-control">
                                     <option value="">Select Invoice Entity *</option>
+                                    @php $firstOptionSelected = true; @endphp
                                     @foreach ($invoiceEntities as $invoiceEntity)
                                         <option value="{{ $invoiceEntity->id }}"
-                                            @if (old('invoice_entity') == $invoiceEntity->id) selected @endif>
-                                            {{ $invoiceEntity->name }}</option>
+                                            @if ($firstOptionSelected || old('invoice_entity') == $invoiceEntity->id) selected @endif>
+                                            {{ $invoiceEntity->name }}
+                                        </option>
+                                        @php $firstOptionSelected = false; @endphp
                                     @endforeach
                                 </select>
                             </div>
@@ -40,7 +43,6 @@
                         </div>
                     </div>
                     <div class="row" id="client-details">
-
                     </div>
                     <div class="row">
                         <div class="col-12 disp_added_products">
@@ -67,7 +69,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-12">
                             <div class="form-check">
@@ -80,12 +81,23 @@
                             @include('admin.order.terms-table')
                         @endif
                     </div>
-                    <div class="form-group">
-                        <textarea name="note" id="" cols="30" rows="10" class="form-control" placeholder="Add Note">{!! old('note') !!}</textarea>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="order_date">Order Date</label>
+                                <input type="date" name="order_date" id="order_date" class="form-control" value="{{ date('Y-m-d') }}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="prepared_by">Order Placed by</label>
+                                <input type="text" name="prepared_by" class="form-control" value="{{ Auth::user()->name }}"
+                            readonly>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="prepared_by" class="form-control" value="{{ Auth::user()->name }}"
-                            readonly>
+                        <textarea name="note" id="" cols="30" rows="10" class="form-control" placeholder="Add Note">{!! old('note') !!}</textarea>
                     </div>
                     {{-- <div class="form-group">
                         <select name="status" class="form-control" id="">

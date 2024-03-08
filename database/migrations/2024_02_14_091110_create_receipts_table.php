@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
+            $table->foreignId('client_id');
             $table->date('received_date')->default(now());
-            $table->string('received_amount')->nullable();
-            $table->string('ordered_amount')->nullable();
+            $table->float('received_amount')->nullable();
+            $table->float('ordered_amount')->nullable();
             $table->string('transaction_type');
             $table->string('transaction_reference')->nullable();
             $table->string('description')->nullable();

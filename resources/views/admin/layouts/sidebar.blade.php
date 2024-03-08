@@ -79,17 +79,19 @@
                         href="{{ route('user') }}"><i class="fas fa-users"></i><span>Users</span></a>
                 </li>
             @endif
-            <li class="{{ setSidebarActive(['product.*']) }}"><a class="nav-link"
-                    href="{{ route('product.index') }}"><i class="fas fa-bars"></i><span>Products</span></a>
-            </li>
             <li class="{{ setSidebarActive(['client.*']) }}"><a class="nav-link" href="{{ route('client.index') }}"><i
                         class="fas fa-users"></i><span>Clients</span></a>
+            </li>
+            <li class="{{ setSidebarActive(['product.*']) }}"><a class="nav-link"
+                    href="{{ route('product.index') }}"><i class="fas fa-bars"></i><span>Products</span></a>
             </li>
             <li class="dropdown {{ setSidebarActive(['order.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-box"></i>
                     <span>Orders</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ setSidebarActive(['order.index', 'order.create', 'order.edit', 'order.show']) }}"><a
+                    <li class="{{ setSidebarActive(['order.create']) }}"><a
+                            class="nav-link" href="{{ route('order.create') }}"><span>Add New</span></a></li>
+                    <li class="{{ setSidebarActive(['order.index', 'order.edit', 'order.show']) }}"><a
                             class="nav-link" href="{{ route('order.index') }}"><span>All</span></a></li>
                     {{-- <li class="{{ setSidebarActive(['order.pending']) }}"><a class="nav-link"
                             href="{{ route('order.pending') }}"><span>Pending</span></a></li>
@@ -103,7 +105,9 @@
                 </ul>
             </li>
             <li class="{{ setSidebarActive(['receipt.*']) }}"><a class="nav-link"
-                    href="{{ route('receipt.index') }}"><i class="fas fa-receipt"></i><span>Receipts</span></a>
+                    href="{{ route('receipt.index') }}"><i class="fas fa-receipt"></i><span>Receipts</span></a></li>
+            <li class="{{ setSidebarActive(['expenses.*']) }}"><a class="nav-link"
+                    href="{{ route('expenses.index') }}"><i class="fas fa-receipt"></i><span>Expenses</span></a></li>
             <li class="dropdown {{ setSidebarActive(['reports.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-receipt"></i>
                     <span>Reports</span></a>
@@ -114,6 +118,8 @@
                             class="nav-link" href="{{ route('reports.client-ledger') }}"><span>Client Ledger</span></a></li>
                     <li class="{{ setSidebarActive(['reports.products-sale-report']) }}"><a
                             class="nav-link" href="{{ route('reports.products-sale-report') }}"><span>Product Sale Report</span></a></li>
+                    <li class="{{ setSidebarActive(['reports.overall-ledger-report']) }}"><a
+                            class="nav-link" href="{{ route('reports.overall-ledger-report') }}"><span>Overall Ledger Report</span></a></li>
                 </ul>
             </li>
             <li class="{{ setSidebarActive(['setting.index']) }}"><a class="nav-link"

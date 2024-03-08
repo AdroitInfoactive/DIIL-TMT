@@ -33,8 +33,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Received Date *</label>
-                                <input type="date" name="received_date" class="form-control" value="{{ date($receipt->received_date) }}"
-                                    max="{{ date('Y-m-d') }}">
+                                <input type="date" name="received_date" class="form-control" value="{{ date($receipt->received_date) }}">
                             </div>
                         </div>
                         <div class="col-6">

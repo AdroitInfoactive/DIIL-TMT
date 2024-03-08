@@ -38,7 +38,7 @@
                                 </select>
                             </div>
                         </div>
-                       
+
                     </div>
                     <hr>
                     <h5>Make - 1</h5>
@@ -66,7 +66,8 @@
                             </div>
                         </div>
                     </div>
-                   
+                    <code>If Total amount will be added directly. Add 1 in Quantity field and Total amount in amount
+                        field</code>
                     <hr>
                     <div class="taxes row ml-3 mr-3">
                     </div>

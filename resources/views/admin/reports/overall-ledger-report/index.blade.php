@@ -76,7 +76,7 @@
         </div>
         <div class="card card-primary">
             <div class="card-header">
-                <h4>All Clients Ledger Report</h4>
+                <h4>Overall Ledger Report</h4>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -106,38 +106,21 @@
                     </div>
                 </div>
                 <div class="card card-primary report-table">
-                    <h4>Ledger of All Clients from {{ date('d-m-Y', strtotime($from_date)) }} to
+                    <h4>Overall Ledger Report from {{ date('d-m-Y', strtotime($from_date)) }} to
                         {{ date('d-m-Y', strtotime($to_date)) }}</h4>
                     <hr>
                     <div class="table-responsive">
                         <table class="table table-striped table-md">
                             <tr>
-                                <th>S.No</th>
-                                <th>Client Name</th>
                                 <th style="text-align: right;">Orders Placed</th>
                                 <th style="text-align: right;">Received Amount</th>
-                                <th style="text-align: right;">Balance</th>
+                                <th style="text-align: right;">Expenses</th>
                             </tr>
-                            @foreach ($receipts as $receipt)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>
-                                        <a
-                                            href="{{ route('reports.client-ledger.client-report', ['client_id' => $receipt->client_id, 'from_date' => $from_date, 'to_date' => $to_date]) }}">{{ $receipt->client_name }}</a>
-                                    </td>
-                                    <td style="text-align: right;">{{ currencyPosition($receipt->ordered_amount) }}</td>
-                                    <td style="text-align: right;">{{ currencyPosition($receipt->received_amount) }}</td>
-                                    @php
-                                        if ($receipt->difference < 0) {
-                                            $clr_cls = 'color:green';
-                                        } else {
-                                            $clr_cls = 'color:red';
-                                        }
-                                    @endphp
-                                    <td style="text-align: right; {{ $clr_cls }};">
-                                        {{ currencyPosition($receipt->difference) }}</td>
-                                </tr>
-                            @endforeach
+                            <tr>
+                                <td style="text-align: right;">{{ currencyPosition($orders->ordered_amount) }}</td>
+                                <td style="text-align: right;">{{ currencyPosition($orders->received_amount) }}</td>
+                                <td style="text-align: right;">{{ currencyPosition($expenses->expenses_amount) }}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -161,7 +144,7 @@
                     return;
                 }
                 $.ajax({
-                    url: "{{ route('reports.all-client-ledger.get-report') }}",
+                    url: "{{ route('reports.overall-ledger-report.get-report') }}",
                     method: "get",
                     data: {
                         from_date: from_date,

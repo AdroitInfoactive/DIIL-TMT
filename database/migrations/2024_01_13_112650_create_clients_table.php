@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('gst_no')->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('area')->nullable();
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
-            $table->string('pincode');
-            $table->string('primary_name');
-            $table->string('primary_mobile');
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
+            $table->string('pincode')->nullable();
+            $table->string('primary_name')->nullable();
+            $table->string('primary_mobile')->nullable();
             $table->string('primary_whatsapp')->nullable();
             $table->string('secondary_name')->nullable();
             $table->string('secondary_mobile')->nullable();
